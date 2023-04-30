@@ -9,6 +9,7 @@ Renderer::Renderer(SDL_Window *sdlWindow)
 {
 
     sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED);
+
 };
 
 SDL_Renderer *Renderer::get_sdlRenderer() const
@@ -33,6 +34,12 @@ void Renderer::drawLine(int x1, int y1, int x2, int y2)
 void Renderer::drawPoint(int x, int y)
 {
     SDL_RenderDrawPoint(sdlRenderer, x, y);
+}
+
+void Renderer::drawRect(const SDL_Rect *rect) {
+
+    SDL_RenderDrawRect(sdlRenderer, rect);
+
 }
 
 void Renderer::update()

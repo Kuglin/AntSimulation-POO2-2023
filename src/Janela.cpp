@@ -1,15 +1,16 @@
 #include "Janela.h"
 #include "FuncoesAuxiliares.h"
+#include "Formiga.h"
 
 #include <SDL2/SDL.h>
-#include <cmath>
+
 #include <iostream>
 using namespace std;
 
 #define PI 3.14159265
 
 // Construtor
-Janela::Janela(char *titulo, int w, int h)
+Janela::Janela(const char *titulo, int w, int h)
 {
     sdl = Sdl::criar();
 
@@ -49,25 +50,8 @@ void Janela::loop()
 
     bool running = 1;
 
-    SDL_Rect miga;
-
-    miga.x = 300;
-    miga.y = 300;
-    miga.w = 50;
-    miga.h = 50;
-
-    float miga_x = miga.x;
-    float miga_y = miga.y;
-
-    int r = 1;
-    double v_x = 1;
-    double v_y = 0;
-
-    double angulo = 0;
-
-    v_x = r * cos(angulo * PI/180);
-    v_y = r * sin(angulo * PI/180);
-
+    Formiga *f1 = new Formiga(300, 300, 50, 50, 1);
+    Formiga *f2 = new Formiga(300, 400, 50, 50, 1);
 
     while (running)
     {   
@@ -83,19 +67,13 @@ void Janela::loop()
 
         renderer->changeColor(255, 255, 255, 255);
 
+        f1->girar_vetor();
+        f1->mover();
+        f1->draw(renderer);
 
-        SDL_RenderDrawRect(renderer->get_sdlRenderer(), &miga);
-        renderer->drawLine(miga.x + miga.w/2, miga.y + miga.h/2, miga.x + miga.w/2 + v_x * miga.w, miga.y + miga.h/2 + v_y * miga.h);
-        
-        angulo += gerar_random();
-        v_x = r * cos(angulo * PI/180);
-        v_y = r * sin(angulo * PI/180);
-
-        miga_x += v_x;
-        miga_y += v_y;
-
-        miga.x = miga_x;
-        miga.y = miga_y;
+        f2->girar_vetor();
+        f2->mover();
+        f2->draw(renderer);
 
         SDL_Delay(10);
         renderer->update();

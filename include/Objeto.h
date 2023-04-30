@@ -3,27 +3,33 @@
 
 #include <SDL2/SDL.h>
 
-// Não esta sendo utilizado
-
 class Objeto {
 
 
-    private:
+    protected:
 
+        // Posição do Objeto
         float pos_x;
         float pos_y;
-
+        
+        // Largura e Altura do Objeto
         int width;
         int height;
 
+        // Retangulo do SDL, usado para exibir o Objeto na Tela
         SDL_Rect rect;
 
     public:
 
+        // Construtor
         Objeto(int x, int y, int w, int h);
         
-        void set_x(int new_x);
-        void set_y(int new_y);
+        // Funcões para mover o Objeto
+        void move_x(float v);
+        void move_y(float v);
+
+        // Retorna o Retangulo do SDL
+        const SDL_Rect* get_rect();
 };
 
 

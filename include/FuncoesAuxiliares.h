@@ -2,16 +2,8 @@
 #define FUNCOESAUXILIARES_H
 
 #include <cstdlib>
-#include <time.h>
 
-float gerar_random() {
-
-    srand(time(NULL));
-
-    return (rand() % 3)-1;
-}
-
-
-
+// Gera um valor aleatorio no intervalo definido 
+int gerar_random(int ini, int fim);
 
 #endif
