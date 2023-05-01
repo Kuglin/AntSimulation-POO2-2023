@@ -8,6 +8,7 @@
 using namespace std;
 
 #define PI 3.14159265
+#define QTD_FORMIGAS 10000
 
 // Construtor
 Janela::Janela(const char *titulo, int w, int h)
@@ -50,8 +51,21 @@ void Janela::loop()
 
     bool running = 1;
 
-    Formiga *f1 = new Formiga(300, 300, 50, 50, 1);
-    Formiga *f2 = new Formiga(300, 400, 50, 50, 1);
+    Formiga *formigas [QTD_FORMIGAS];
+    for (int i=0; i<QTD_FORMIGAS; i++) formigas[i] = new Formiga(300, 400, 10, 10, 1, gerar_random(0,360));
+
+    int qtd_objetos = 7;
+    Objeto *objetos [qtd_objetos];
+    for (int i=0; i<6; i++) objetos[i] = nullptr;
+
+    objetos[0] = new Objeto(0, 0, width, 1);
+    objetos[1] = new Objeto(0, 0, 1, height);
+    objetos[2] = new Objeto(width-1, 0, 1, height);
+    objetos[3] = new Objeto(0, height-1, width, 1);
+    objetos[4] = new Objeto(100, 100, 200, 200);
+    objetos[5] = new Objeto(400, 300, 300, 300);
+    objetos[6] = new Objeto(600, 0, 150, 150);
+
 
     while (running)
     {   
@@ -67,16 +81,33 @@ void Janela::loop()
 
         renderer->changeColor(255, 255, 255, 255);
 
-        f1->girar_vetor();
-        f1->mover();
-        f1->draw(renderer);
+        for (int i=0; i<QTD_FORMIGAS; i++) {
+            if (formigas[i]) {
+                
+                formigas[i]->girar_aleatorio();
 
-        f2->girar_vetor();
-        f2->mover();
-        f2->draw(renderer);
+                for (int j=0; j<qtd_objetos; j++) {
 
-        SDL_Delay(10);
+                    if (objetos[j]) {
+
+                        if (formigas[i]->verf_colisao(objetos[j]))
+                            formigas[i]->girar_vetor(90);
+                    }
+                }
+
+                formigas[i]->mover();
+                formigas[i]->draw(renderer);
+
+            }
+        }
+
+        for (int i = 0; i < qtd_objetos; i++) 
+            if (objetos[i])
+                objetos[i]->draw(renderer);
+
         renderer->update();
+
+        //SDL_Delay(10);
 
     }
 

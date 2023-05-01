@@ -24,13 +24,19 @@ class Formiga : public Objeto {
     public:
 
         // Construtor
-        Formiga(int x, int y, int w, int h,float vel);
+        Formiga(int x, int y, int w, int h,float vel, int angulo_inicial);
 
         // Girar o vetor de direção em um angulo aleatorio
-        void girar_vetor();
+        void girar_vetor(int ang);
+
+        // Gira Formiga em uma direção aleatoria
+        void girar_aleatorio();
 
         // Move formiga, conforme a direção indicada pelo vetor
         void mover();
+
+        // Verifica se houve colisão com outro objeto
+        bool verf_colisao(Objeto *obj);
 
         // Desenha formiga na tela
         void draw(Renderer *r);

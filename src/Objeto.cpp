@@ -10,10 +10,10 @@ Objeto::Objeto(int x, int y, int w, int h) {
     width = w;
     height = h;
 
-    rect.x = 300;
-    rect.y = 300;
-    rect.w = 50;
-    rect.h = 50;
+    rect.x = x;
+    rect.y = y;
+    rect.w = w;
+    rect.h = h;
 
 }
 
@@ -34,5 +34,34 @@ void Objeto::move_y(float v) {
 const SDL_Rect* Objeto::get_rect() {
 
     return &rect;
+
+}
+
+void Objeto::draw(Renderer *r) {
+
+    r->drawRect(&rect);
+
+}
+
+float Objeto::get_pos_x() {
+
+    return pos_x;
+
+}
+float Objeto::get_pos_y() {
+
+    return pos_y;
+
+}
+
+int Objeto::get_width() {
+
+    return width;
+
+}
+
+int Objeto::get_height() {
+
+    return height;
 
 }
