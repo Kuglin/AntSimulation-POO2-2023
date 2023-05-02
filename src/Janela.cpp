@@ -8,7 +8,7 @@
 using namespace std;
 
 #define PI 3.14159265
-#define QTD_FORMIGAS 10000
+#define QTD_FORMIGAS 100
 
 // Construtor
 Janela::Janela(const char *titulo, int w, int h)
@@ -66,6 +66,13 @@ void Janela::loop()
     objetos[5] = new Objeto(400, 300, 300, 300);
     objetos[6] = new Objeto(600, 0, 150, 150);
 
+    int qtd_feromonios = 3; 
+    Objeto *feromonios [qtd_feromonios];
+
+    feromonios [0] = new Objeto(320,340, 20, 20);
+    feromonios [1] = new Objeto(280,380, 20, 20);
+    feromonios [2] = new Objeto(240,420, 20, 20);
+
 
     while (running)
     {   
@@ -95,7 +102,11 @@ void Janela::loop()
                     }
                 }
 
+                for (int j = 0; j < qtd_feromonios; j++)
+                    formigas[i]->visao(feromonios[j], renderer);
+
                 formigas[i]->mover();
+                renderer->changeColor(255, 255, 255, 255);
                 formigas[i]->draw(renderer);
 
             }
@@ -105,9 +116,14 @@ void Janela::loop()
             if (objetos[i])
                 objetos[i]->draw(renderer);
 
+
+        renderer->changeColor(200, 255, 100, 255);
+        for (int i = 0; i < qtd_feromonios; i++)
+            feromonios[i]->draw(renderer);
+
         renderer->update();
 
-        //SDL_Delay(10);
+        SDL_Delay(10);
 
     }
 

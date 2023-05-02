@@ -35,6 +35,9 @@ class Objeto {
         // Retorna o Retangulo do SDL
         const SDL_Rect* get_rect();
 
+        // Verifica colisao com outro Objeto
+        bool verf_colisao(Objeto *obj);
+
         //Getters
         float get_pos_x();
         float get_pos_y();

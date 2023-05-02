@@ -9,6 +9,10 @@ using namespace std;
 
 #define PI 3.14159265
 
+#define distVisao 4
+#define areaVisao 30
+#define atracaoFeromonio 5
+
 Formiga::Formiga(int x, int y, int w, int h, float vel, int angulo_inicial) : Objeto(x, y, w, h){
 
     velocidade = vel;
@@ -88,6 +92,51 @@ bool Formiga::verf_colisao(Objeto *obj) {
 void Formiga::draw(Renderer *r){
     
     r->drawRect(&rect);
-    r->drawLine(pos_x + width/2, pos_y + height/2, pos_x + width/2 + dir_x * width, pos_y + height/2 + dir_y * height);
+    r->drawLine(pos_x + width/2, 
+    pos_y + height/2, 
+    pos_x + width/2 + dir_x * width ,
+    pos_y + height/2 + dir_y * height);
+
+}
+
+void Formiga::visao(Objeto *comida, Renderer *r) {
+
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+
+    Objeto *obj1 = new Objeto(pos_x -(areaVisao/2) + width/2 + dir_x * width * distVisao, 
+                              pos_y -(areaVisao/2) + height/2 + dir_y * height * distVisao, 
+                              areaVisao, 
+                              areaVisao);
+
+    Objeto *obj2 = new Objeto(pos_x -(areaVisao/2) + width/2 + (velocidade * cos((angulo - 60) * PI/180)) * width * distVisao, 
+                              pos_y -(areaVisao/2) + height/2 + (velocidade * sin((angulo - 60) * PI/180)) * height * distVisao, 
+                              areaVisao, 
+                              areaVisao);
+
+    Objeto *obj3 = new Objeto(pos_x -(areaVisao/2) + width/2 + (velocidade * cos((angulo + 60) * PI/180)) * width * distVisao, 
+                              pos_y -(areaVisao/2) + height/2 + (velocidade * sin((angulo + 60) * PI/180)) * height * distVisao, 
+                              areaVisao, 
+                              areaVisao);
+
+    if (obj1->verf_colisao(comida))
+        aceleracao_angular = 0;
+    
+    if (obj2->verf_colisao(comida)) {
+        angulo = (angulo - atracaoFeromonio) % 360;
+        aceleracao_angular = 0;
+    }
+
+    if (obj3->verf_colisao(comida)) {
+        angulo = (angulo + atracaoFeromonio) % 360;
+        aceleracao_angular = 0;
+    }
+
+    // r->changeColor(100, 255, 100, 255);
+    // obj1->draw(r);
+    // obj2->draw(r);
+    // obj3->draw(r);
 
 }

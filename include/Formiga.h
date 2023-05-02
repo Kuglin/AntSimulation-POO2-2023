@@ -16,7 +16,7 @@ class Formiga : public Objeto {
         float velocidade;
 
         // Angulo do Vetor de direção da formiga
-        float angulo;
+        int angulo;
 
         // Mudança que ocorre no angulo a cada tick
         int aceleracao_angular;
@@ -37,6 +37,9 @@ class Formiga : public Objeto {
 
         // Verifica se houve colisão com outro objeto
         bool verf_colisao(Objeto *obj);
+
+        // Verifica se existe algum feromonio no campo do visao e rotaciona na sua direção
+        void visao(Objeto *comida, Renderer *r);
 
         // Desenha formiga na tela
         void draw(Renderer *r);
