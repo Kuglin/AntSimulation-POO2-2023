@@ -1,14 +1,14 @@
 #include "Janela.h"
 #include "FuncoesAuxiliares.h"
 #include "Formiga.h"
+#include "Feromonio.h"
 
 #include <SDL2/SDL.h>
 
 #include <iostream>
 using namespace std;
-
 #define PI 3.14159265
-#define QTD_FORMIGAS 100
+#define QTD_FORMIGAS 10000
 
 // Construtor
 Janela::Janela(const char *titulo, int w, int h)
@@ -67,11 +67,11 @@ void Janela::loop()
     objetos[6] = new Objeto(600, 0, 150, 150);
 
     int qtd_feromonios = 3; 
-    Objeto *feromonios [qtd_feromonios];
+    Feromonio *feromonios [qtd_feromonios];
 
-    feromonios [0] = new Objeto(320,340, 20, 20);
-    feromonios [1] = new Objeto(280,380, 20, 20);
-    feromonios [2] = new Objeto(240,420, 20, 20);
+    feromonios [0] = new Feromonio(320,340, 20, 20, 10);
+    feromonios [1] = new Feromonio(280,380, 20, 20, 10);
+    feromonios [2] = new Feromonio(240,420, 20, 20, 10);
 
 
     while (running)
@@ -98,7 +98,7 @@ void Janela::loop()
                     if (objetos[j]) {
 
                         if (formigas[i]->verf_colisao(objetos[j]))
-                            formigas[i]->girar_vetor(90);
+                            formigas[i]->girar_vetor(180);
                     }
                 }
 

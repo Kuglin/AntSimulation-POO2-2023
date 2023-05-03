@@ -9,10 +9,6 @@ using namespace std;
 
 #define PI 3.14159265
 
-#define distVisao 4
-#define areaVisao 30
-#define atracaoFeromonio 5
-
 Formiga::Formiga(int x, int y, int w, int h, float vel, int angulo_inicial) : Objeto(x, y, w, h){
 
     velocidade = vel;

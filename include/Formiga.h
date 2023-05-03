@@ -12,6 +12,10 @@ class Formiga : public Objeto {
         float dir_x;
         float dir_y;
 
+        int distVisao = 4;
+        int areaVisao = 30;
+        int atracaoFeromonio = 10;
+
         // Modulo do Vetor anterior, indica quantos pixels a formiga se move
         float velocidade;
 
