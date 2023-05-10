@@ -38,12 +38,28 @@ void Formiga::girar_aleatorio() {
 
 }
 
-void Formiga::mover() {
+void Formiga::mover_dir() {
 
     move_x(dir_x);
     move_y(dir_y);
     
 }
+
+void Formiga::move_x(float v) {
+
+    pos_x += v;
+    rect.x = pos_x;
+
+}
+
+void Formiga::move_y(float v) {
+
+    pos_y += v;
+    rect.y = pos_y;
+
+}
+
+
 
 bool Formiga::verf_colisao(Objeto *obj) {
 
@@ -95,44 +111,56 @@ void Formiga::draw(Renderer *r){
 
 }
 
-void Formiga::visao(Objeto *comida, Renderer *r) {
+// void Formiga::visao(Objeto *comida, Renderer *r) {
 
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
+//     int leftA, leftB;
+//     int rightA, rightB;
+//     int topA, topB;
+//     int bottomA, bottomB;
 
-    Objeto *obj1 = new Objeto(pos_x -(areaVisao/2) + width/2 + dir_x * width * distVisao, 
-                              pos_y -(areaVisao/2) + height/2 + dir_y * height * distVisao, 
-                              areaVisao, 
-                              areaVisao);
+//     Objeto *obj1 = new Objeto(pos_x -(areaVisao/2) + width/2 + dir_x * width * distVisao, 
+//                               pos_y -(areaVisao/2) + height/2 + dir_y * height * distVisao, 
+//                               areaVisao, 
+//                               areaVisao);
 
-    Objeto *obj2 = new Objeto(pos_x -(areaVisao/2) + width/2 + (velocidade * cos((angulo - 60) * PI/180)) * width * distVisao, 
-                              pos_y -(areaVisao/2) + height/2 + (velocidade * sin((angulo - 60) * PI/180)) * height * distVisao, 
-                              areaVisao, 
-                              areaVisao);
+//     Objeto *obj2 = new Objeto(pos_x -(areaVisao/2) + width/2 + (velocidade * cos((angulo - 60) * PI/180)) * width * distVisao, 
+//                               pos_y -(areaVisao/2) + height/2 + (velocidade * sin((angulo - 60) * PI/180)) * height * distVisao, 
+//                               areaVisao, 
+//                               areaVisao);
 
-    Objeto *obj3 = new Objeto(pos_x -(areaVisao/2) + width/2 + (velocidade * cos((angulo + 60) * PI/180)) * width * distVisao, 
-                              pos_y -(areaVisao/2) + height/2 + (velocidade * sin((angulo + 60) * PI/180)) * height * distVisao, 
-                              areaVisao, 
-                              areaVisao);
+//     Objeto *obj3 = new Objeto(pos_x -(areaVisao/2) + width/2 + (velocidade * cos((angulo + 60) * PI/180)) * width * distVisao, 
+//                               pos_y -(areaVisao/2) + height/2 + (velocidade * sin((angulo + 60) * PI/180)) * height * distVisao, 
+//                               areaVisao, 
+//                               areaVisao);
 
-    if (obj1->verf_colisao(comida))
-        aceleracao_angular = 0;
+//     if (obj1->verf_colisao(comida))
+//         aceleracao_angular = 0;
     
-    if (obj2->verf_colisao(comida)) {
-        angulo = (angulo - atracaoFeromonio) % 360;
-        aceleracao_angular = 0;
-    }
+//     if (obj2->verf_colisao(comida)) {
+//         angulo = (angulo - atracaoFeromonio) % 360;
+//         aceleracao_angular = 0;
+//     }
 
-    if (obj3->verf_colisao(comida)) {
-        angulo = (angulo + atracaoFeromonio) % 360;
-        aceleracao_angular = 0;
-    }
+//     if (obj3->verf_colisao(comida)) {
+//         angulo = (angulo + atracaoFeromonio) % 360;
+//         aceleracao_angular = 0;
+//     }
 
-    // r->changeColor(100, 255, 100, 255);
-    // obj1->draw(r);
-    // obj2->draw(r);
-    // obj3->draw(r);
+//     // r->changeColor(100, 255, 100, 255);
+//     // obj1->draw(r);
+//     // obj2->draw(r);
+//     // obj3->draw(r);
+
+// }
+
+int Formiga::get_dir_y() {
+
+    return (dir_y*distVisao + pos_y + width/2);
+
+}
+
+int Formiga::get_dir_x() {
+    
+    return (dir_x*distVisao + pos_x + height/2);
 
 }

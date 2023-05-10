@@ -3,6 +3,7 @@ using namespace std;
 
 #include "Janela.h"
 #include "Formiga.h"
+#include "Objeto.h"
 
 #include <cstdlib>
 #include <time.h>
@@ -17,6 +18,5 @@ int main(int argc, char const *argv[])
     
     Janela *janela = new Janela(title, 800, 600);
     janela->loop();
-
-
+    
 }

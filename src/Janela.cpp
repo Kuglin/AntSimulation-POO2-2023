@@ -2,13 +2,14 @@
 #include "FuncoesAuxiliares.h"
 #include "Formiga.h"
 #include "Feromonio.h"
+#include "Grid.h"
 
 #include <SDL2/SDL.h>
 
 #include <iostream>
 using namespace std;
 #define PI 3.14159265
-#define QTD_FORMIGAS 10000
+#define QTD_FORMIGAS 1000
 
 // Construtor
 Janela::Janela(const char *titulo, int w, int h)
@@ -54,25 +55,22 @@ void Janela::loop()
     Formiga *formigas [QTD_FORMIGAS];
     for (int i=0; i<QTD_FORMIGAS; i++) formigas[i] = new Formiga(300, 400, 10, 10, 1, gerar_random(0,360));
 
-    int qtd_objetos = 7;
-    Objeto *objetos [qtd_objetos];
-    for (int i=0; i<6; i++) objetos[i] = nullptr;
+    Grid *grid = new Grid(800, 600);
 
-    objetos[0] = new Objeto(0, 0, width, 1);
-    objetos[1] = new Objeto(0, 0, 1, height);
-    objetos[2] = new Objeto(width-1, 0, 1, height);
-    objetos[3] = new Objeto(0, height-1, width, 1);
-    objetos[4] = new Objeto(100, 100, 200, 200);
-    objetos[5] = new Objeto(400, 300, 300, 300);
-    objetos[6] = new Objeto(600, 0, 150, 150);
+    grid->inserir(new Objeto(0, 0, width, 1));
+    grid->inserir(new Objeto(0, 0, 1, height));
+    grid->inserir(new Objeto(width-1, 0, 1, height));
+    grid->inserir(new Objeto(0, height-1, width, 1));
+    grid->inserir(new Objeto(100, 100, 200, 200));
+    grid->inserir(new Objeto(400, 300, 300, 300));
+    grid->inserir(new Objeto(600, 0, 150, 150));
 
-    int qtd_feromonios = 3; 
-    Feromonio *feromonios [qtd_feromonios];
+    // int qtd_feromonios = 3; 
+    // Feromonio *feromonios [qtd_feromonios];
 
-    feromonios [0] = new Feromonio(320,340, 20, 20, 10);
-    feromonios [1] = new Feromonio(280,380, 20, 20, 10);
-    feromonios [2] = new Feromonio(240,420, 20, 20, 10);
-
+    // feromonios [0] = new Feromonio(320,340, 20, 20, 10);
+    // feromonios [1] = new Feromonio(280,380, 20, 20, 10);
+    // feromonios [2] = new Feromonio(240,420, 20, 20, 10);
 
     while (running)
     {   
@@ -93,33 +91,32 @@ void Janela::loop()
                 
                 formigas[i]->girar_aleatorio();
 
-                for (int j=0; j<qtd_objetos; j++) {
+                if (grid->verf_colisao(formigas[i]->get_dir_x(), formigas[i]->get_dir_y())) {
 
-                    if (objetos[j]) {
+                    formigas[i]->girar_vetor(180);
 
-                        if (formigas[i]->verf_colisao(objetos[j]))
-                            formigas[i]->girar_vetor(180);
-                    }
                 }
+                    
+                // for (int j=0; j<qtd_objetos; j++) {
 
-                for (int j = 0; j < qtd_feromonios; j++)
-                    formigas[i]->visao(feromonios[j], renderer);
+                //     if (objetos[j]) {
 
-                formigas[i]->mover();
+                //         if (formigas[i]->verf_colisao(objetos[j]))
+                //             formigas[i]->girar_vetor(180);
+                //     }
+                // }
+
+                // for (int j = 0; j < qtd_feromonios; j++)
+                //     formigas[i]->visao(feromonios[j], renderer);
+
+                formigas[i]->mover_dir();
                 renderer->changeColor(255, 255, 255, 255);
                 formigas[i]->draw(renderer);
 
             }
         }
 
-        for (int i = 0; i < qtd_objetos; i++) 
-            if (objetos[i])
-                objetos[i]->draw(renderer);
-
-
-        renderer->changeColor(200, 255, 100, 255);
-        for (int i = 0; i < qtd_feromonios; i++)
-            feromonios[i]->draw(renderer);
+        grid->exibir(renderer);
 
         renderer->update();
 

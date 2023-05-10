@@ -37,17 +37,24 @@ class Formiga : public Objeto {
         void girar_aleatorio();
 
         // Move formiga, conforme a direção indicada pelo vetor
-        void mover();
+        void mover_dir();
+
+        // Funcões para mover o Formiga
+        void move_x(float v);
+        void move_y(float v);
 
         // Verifica se houve colisão com outro objeto
         bool verf_colisao(Objeto *obj);
 
         // Verifica se existe algum feromonio no campo do visao e rotaciona na sua direção
-        void visao(Objeto *comida, Renderer *r);
+        // void visao(Objeto *comida, Renderer *r);
 
         // Desenha formiga na tela
         void draw(Renderer *r);
 
+        int get_dir_x();
+        int get_dir_y();
+        
 };
 
 #endif

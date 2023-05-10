@@ -25,9 +25,7 @@ class Objeto {
         // Construtor
         Objeto(int x, int y, int w, int h);
         
-        // Funcões para mover o Objeto
-        void move_x(float v);
-        void move_y(float v);
+
         
         // Desenha o Objeto na Tela
         void draw(Renderer *r);
