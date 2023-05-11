@@ -4,15 +4,18 @@
 #include "Objeto.h"
 #include "Renderer.h"
 
-class Feromonio : public Objeto {
+class Feromonio : public Ponto {
 
     private:
 
         int duracao;
 
     public:
-    
-        Feromonio(int x, int y, int w, int h, int duracao);
-};
+
+        Feromonio(int x, int y, int duracao);
+
+        bool diminuirDuracao();
+
+};      
 
 #endif

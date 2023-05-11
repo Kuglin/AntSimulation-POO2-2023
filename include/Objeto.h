@@ -3,15 +3,12 @@
 
 #include <SDL2/SDL.h>
 #include "Renderer.h"
+#include "Ponto.h"
 
-class Objeto {
+class Objeto : public Ponto {
 
 
     protected:
-
-        // Posição do Objeto
-        float pos_x;
-        float pos_y;
         
         // Largura e Altura do Objeto
         int width;
@@ -25,8 +22,6 @@ class Objeto {
         // Construtor
         Objeto(int x, int y, int w, int h);
         
-
-        
         // Desenha o Objeto na Tela
         void draw(Renderer *r);
 
@@ -35,10 +30,6 @@ class Objeto {
 
         // Verifica colisao com outro Objeto
         bool verf_colisao(Objeto *obj);
-
-        //Getters
-        float get_pos_x();
-        float get_pos_y();
 
         int get_width();
         int get_height();

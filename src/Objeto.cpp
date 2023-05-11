@@ -3,10 +3,8 @@
 #include <iostream>
 using namespace std;
 
-Objeto::Objeto(int x, int y, int w, int h) {
+Objeto::Objeto(int x, int y, int w, int h) : Ponto(x , y){
 
-    pos_x = x;
-    pos_y = y;
     width = w;
     height = h;
 
@@ -14,6 +12,8 @@ Objeto::Objeto(int x, int y, int w, int h) {
     rect.y = y;
     rect.w = w;
     rect.h = h;
+
+    type = 1;
 
 }
 
@@ -26,17 +26,6 @@ const SDL_Rect* Objeto::get_rect() {
 void Objeto::draw(Renderer *r) {
 
     r->drawRect(&rect);
-
-}
-
-float Objeto::get_pos_x() {
-
-    return pos_x;
-
-}
-float Objeto::get_pos_y() {
-
-    return pos_y;
 
 }
 

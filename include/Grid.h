@@ -6,24 +6,29 @@ using namespace std;
 
 #include "Objeto.h"
 #include "Feromonio.h"
+#include "Formiga.h"
 #include "Renderer.h"
 
 class Grid {
     private:
 
-        Objeto*** grid;
+        Ponto*** grid;
         
         vector<Objeto*> objetos;
-        //list<Feromonios> feromonios;
+
+        vector<Feromonio*> feromonios;
+
+        vector<Formiga*> formigas;
 
         int linhas;
         int colunas;
 
     public:
 
-        Grid(int linhas, int colunas);
+        Grid(int linhas, int colunas, int qtd_formigas);
 
         void inserir(Objeto* obj);
+        void inserir(Feromonio* feromonio);
 
         bool verf_colisao(int x, int y);
 

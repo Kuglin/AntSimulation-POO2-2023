@@ -12,6 +12,10 @@ class Formiga : public Objeto {
         float dir_x;
         float dir_y;
 
+        // Pos Relativa
+        float pos_xR;
+        float pos_yR;
+
         int distVisao = 4;
         int areaVisao = 30;
         int atracaoFeromonio = 10;
@@ -24,6 +28,8 @@ class Formiga : public Objeto {
 
         // Mudança que ocorre no angulo a cada tick
         int aceleracao_angular;
+
+        int tempoFer = 10;
 
     public:
 
@@ -51,6 +57,8 @@ class Formiga : public Objeto {
 
         // Desenha formiga na tela
         void draw(Renderer *r);
+
+        bool soltarFeromonio();
 
         int get_dir_x();
         int get_dir_y();
