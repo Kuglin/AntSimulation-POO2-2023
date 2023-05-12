@@ -1,9 +1,10 @@
 #include "Feromonio.h"
 
-Feromonio::Feromonio(int x, int y, int duracao) : Ponto(x, y){
+Feromonio::Feromonio(int x, int y, int duracao, bool comida) : Ponto(x, y){
 
     this->duracao = duracao;
     type = 2;
+    achouComida = comida;
 
 }
 

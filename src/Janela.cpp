@@ -9,7 +9,7 @@
 #include <iostream>
 using namespace std;
 #define PI 3.14159265
-#define QTD_FORMIGAS 10
+#define QTD_FORMIGAS 100
 
 // Construtor
 Janela::Janela(const char *titulo, int w, int h)
@@ -52,7 +52,7 @@ void Janela::loop()
 
     bool running = 1;
 
-    Grid *grid = new Grid(800, 600, 1);
+    Grid *grid = new Grid(800, 600, QTD_FORMIGAS);
 
     grid->inserir(new Objeto(0, 0, width, 1));
     grid->inserir(new Objeto(0, 0, 1, height));

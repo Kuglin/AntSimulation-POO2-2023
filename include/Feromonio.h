@@ -9,12 +9,15 @@ class Feromonio : public Ponto {
     private:
 
         int duracao;
+        
 
     public:
 
-        Feromonio(int x, int y, int duracao);
+        Feromonio(int x, int y, int duracao, bool comida);
 
         bool diminuirDuracao();
+
+        bool achouComida;
 
 };      
 

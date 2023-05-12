@@ -20,6 +20,8 @@ class Grid {
 
         vector<Formiga*> formigas;
 
+        vector<Objeto*> comidas;
+
         int linhas;
         int colunas;
 
@@ -30,7 +32,7 @@ class Grid {
         void inserir(Objeto* obj);
         void inserir(Feromonio* feromonio);
 
-        bool verf_colisao(int x, int y);
+        int verf_colisao(int x, int y);
 
         void exibir(Renderer *r);
 };

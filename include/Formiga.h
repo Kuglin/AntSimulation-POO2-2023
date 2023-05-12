@@ -62,6 +62,8 @@ class Formiga : public Objeto {
 
         int get_dir_x();
         int get_dir_y();
+
+        bool hasFood = 0;
         
 };
 

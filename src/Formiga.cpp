@@ -34,7 +34,7 @@ void Formiga::girar_vetor(int ang) {
 
 void Formiga::girar_aleatorio() {
 
-    if ((gerar_random(0,100)) == 0)
+    if ((gerar_random(0,50)) == 0)
         aceleracao_angular = gerar_random(-1,1);
 
     girar_vetor(aceleracao_angular);
