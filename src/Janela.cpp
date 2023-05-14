@@ -9,7 +9,7 @@
 #include <iostream>
 using namespace std;
 #define PI 3.14159265
-#define QTD_FORMIGAS 100
+#define QTD_FORMIGAS 5
 
 // Construtor
 Janela::Janela(const char *titulo, int w, int h)

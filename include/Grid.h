@@ -35,6 +35,7 @@ class Grid {
         int verf_colisao(int x, int y);
 
         void exibir(Renderer *r);
+
 };
 
 #endif

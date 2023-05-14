@@ -16,7 +16,7 @@ class Formiga : public Objeto {
         float pos_xR;
         float pos_yR;
 
-        int distVisao = 4;
+        int distVisao = 30;
         int areaVisao = 30;
         int atracaoFeromonio = 10;
 
@@ -50,10 +50,7 @@ class Formiga : public Objeto {
         void move_y(float v);
 
         // Verifica se houve colisão com outro objeto
-        bool verf_colisao(Objeto *obj);
-
-        // Verifica se existe algum feromonio no campo do visao e rotaciona na sua direção
-        // void visao(Objeto *comida, Renderer *r);
+        void visao(Ponto*** grid, Renderer *r);
 
         // Desenha formiga na tela
         void draw(Renderer *r);

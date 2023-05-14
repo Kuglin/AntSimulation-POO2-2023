@@ -102,7 +102,8 @@ void Grid::exibir(Renderer *r) {
             inserir(new Feromonio(pos_x, pos_y, 500, formigas[i]->hasFood));
 
         }
-
+        
+        formigas[i]->visao(grid, r);
         formigas[i]->mover_dir();
 
         r->changeColor(255, 255, 255, 255);

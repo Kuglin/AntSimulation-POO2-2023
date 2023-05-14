@@ -99,3 +99,46 @@ bool Formiga::soltarFeromonio() {
 
     return 0;
 }
+
+void Formiga::visao(Ponto*** grid, Renderer *r) {
+
+    int vis_x;
+    int vis_y; 
+
+    bool achou = 0;
+    
+    r->changeColor(255,255,100,255);
+
+
+    for (int ang = -30; ang < 30; ang++) {
+
+        for (int i = 1; i < distVisao; i++) {
+            
+
+            vis_x = (i * cos((ang + angulo) * PI/180)) + pos_x + width/2;
+            vis_y = (i * sin((ang + angulo) * PI/180)) + pos_y + height/2;
+
+            r->drawPoint(vis_x, vis_y);
+
+            //cout << vis_y << "\n";
+
+            if ( (vis_x > 0) && (vis_x <= 800) && (vis_y > 0) && (vis_y <= 600) && !achou) { 
+                if (grid[vis_x][vis_y]){
+                        if ( grid[vis_x][vis_y]->type == 2) {
+                    
+                            angulo += ang;
+                            aceleracao_angular = 0;
+                            achou = 1;
+
+                    }
+                }
+            }
+
+        }
+
+    }
+
+
+
+
+}
