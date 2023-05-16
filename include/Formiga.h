@@ -1,8 +1,12 @@
+#pragma once
+
 #ifndef FORMIGA_H
 #define FORMIGA_H
 
 #include "Objeto.h"
 #include "Renderer.h"
+
+class Grid;
 
 class Formiga : public Objeto {
 
@@ -50,7 +54,7 @@ class Formiga : public Objeto {
         void move_y(float v);
 
         // Verifica se houve colisão com outro objeto
-        void visao(Ponto*** grid, Renderer *r);
+        void visao(Grid* grid, Renderer *r);
 
         // Desenha formiga na tela
         void draw(Renderer *r);

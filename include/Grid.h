@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef GRID_H
 #define GRID_H
 
@@ -6,8 +8,8 @@ using namespace std;
 
 #include "Objeto.h"
 #include "Feromonio.h"
-#include "Formiga.h"
 #include "Renderer.h"
+#include "Formiga.h"
 
 class Grid {
     private:
@@ -35,6 +37,8 @@ class Grid {
         int verf_colisao(int x, int y);
 
         void exibir(Renderer *r);
+
+        int get_GridPosType(int pos_x, int pos_y); 
 
 };
 

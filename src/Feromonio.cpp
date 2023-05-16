@@ -3,7 +3,12 @@
 Feromonio::Feromonio(int x, int y, int duracao, bool comida) : Ponto(x, y){
 
     this->duracao = duracao;
-    type = 2;
+
+    if (comida)
+        type = 9;
+    else
+        type = 10;
+
     achouComida = comida;
 
 }

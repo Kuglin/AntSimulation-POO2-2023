@@ -47,8 +47,9 @@ void Grid::inserir(Feromonio* feromonio) {
     int pos_y = feromonio->get_pos_y();
 
     feromonios.push_back(feromonio);
-    
-    grid[pos_x][pos_y] = feromonio;
+
+    if (get_GridPosType(pos_x, pos_y) >= 0)
+        grid[pos_x][pos_y] = feromonio;
 
 }
 
@@ -82,16 +83,16 @@ void Grid::exibir(Renderer *r) {
             
         formigas[i]->girar_aleatorio();
 
-        int obj_colisao = verf_colisao(dir_x, dir_y);
+        // int obj_colisao = get_GridPosType(dir_x, dir_y);
 
-        if (obj_colisao == 1)
-            formigas[i]->girar_vetor(90);
+        // if (obj_colisao == 1 || obj_colisao == -1)
+        //     formigas[i]->girar_vetor(90);
 
-        if (obj_colisao == 4) {
-            formigas[i]->girar_vetor(90);
-            formigas[i]->hasFood = 1;
+        // if (obj_colisao == 4) {
+        //     formigas[i]->girar_vetor(90);
+        //     formigas[i]->hasFood = 1;
 
-        }
+        // }
 
             
         if (formigas[i]->soltarFeromonio()) {
@@ -103,7 +104,7 @@ void Grid::exibir(Renderer *r) {
 
         }
         
-        formigas[i]->visao(grid, r);
+        formigas[i]->visao(this, r);
         formigas[i]->mover_dir();
 
         r->changeColor(255, 255, 255, 255);
@@ -145,6 +146,17 @@ void Grid::exibir(Renderer *r) {
     for (int i=0; i < comidas.size(); i++)
         r->drawRect(comidas[i]->get_rect());
 
-
-
 }
+
+int Grid::get_GridPosType(int pos_x, int pos_y) {
+    
+    if ( (pos_x > 0) && (pos_x <= linhas) && (pos_y > 0) && (pos_y <= colunas)) {
+        if (grid[pos_x][pos_y])
+            return grid[pos_x][pos_y]->type;
+
+        return -2;
+    }
+
+    return -1;
+
+} 

@@ -1,5 +1,6 @@
 #include "Formiga.h"
 #include "FuncoesAuxiliares.h"
+#include "Grid.h"
 
 #include <cmath>
 #include <SDL2/SDL.h>
@@ -100,19 +101,20 @@ bool Formiga::soltarFeromonio() {
     return 0;
 }
 
-void Formiga::visao(Ponto*** grid, Renderer *r) {
+void Formiga::visao(Grid* grid, Renderer *r) {
 
     int vis_x;
     int vis_y; 
 
-    bool achou = 0;
-    
     r->changeColor(255,255,100,255);
 
+    int maxAng = 0;
+    int max_qtdFer = 0;
+    int qtd_fer = 0;
 
     for (int ang = -30; ang < 30; ang++) {
 
-        for (int i = 1; i < distVisao; i++) {
+        for (int i = distVisao/2; i < distVisao; i++) {
             
 
             vis_x = (i * cos((ang + angulo) * PI/180)) + pos_x + width/2;
@@ -122,23 +124,28 @@ void Formiga::visao(Ponto*** grid, Renderer *r) {
 
             //cout << vis_y << "\n";
 
-            if ( (vis_x > 0) && (vis_x <= 800) && (vis_y > 0) && (vis_y <= 600) && !achou) { 
-                if (grid[vis_x][vis_y]){
-                        if ( grid[vis_x][vis_y]->type == 2) {
-                    
-                            angulo += ang;
-                            aceleracao_angular = 0;
-                            achou = 1;
+            int pos_type = grid->get_GridPosType(vis_x, vis_y);
 
-                    }
-                }
+            if ( pos_type == (hasFood+9))
+                qtd_fer += 1;
+            
+            else if (pos_type == -1 || pos_type == 1)
+                angulo += 30;
+
+            else if (pos_type == 4) {
+                angulo += 30;
+                hasFood = 1;
+
             }
+        }
 
+        if (qtd_fer > max_qtdFer) {
+            qtd_fer = max_qtdFer;
+            maxAng = ang;
         }
 
     }
 
-
-
+    girar_vetor(maxAng);
 
 }
