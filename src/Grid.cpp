@@ -9,6 +9,7 @@ Grid::Grid(int linhas, int colunas, int qtd_formigas) {
     this->linhas = linhas;
     this->colunas = colunas;
 
+    //Preenche a matriz com Pontos
     grid = new Ponto**[linhas];
 
     for (int i = 0; i < (linhas); i++) {
@@ -17,11 +18,12 @@ Grid::Grid(int linhas, int colunas, int qtd_formigas) {
             grid[i][j] = nullptr;
     }
 
+    //Gera a quantidade de formigas especificada no construtor, com uma direção aleatória
     for (int i = 0; i < qtd_formigas; i++)
         formigas.push_back(new Formiga(300, 400, 10, 10, 1, gerar_random(0,360)));
 
     inserir(new Objeto(740, 540, 30, 30));
-    grid[740][540]->type = 4;
+    grid[740][540]->type = Type::comida;
     
 }
 
@@ -29,12 +31,14 @@ void Grid::inserir(Objeto* obj) {
 
     objetos.push_back(obj);
 
+    //Pega a posição do objeto
     int pos_x = obj->get_pos_x();
     int pos_y = obj->get_pos_y();
 
     int pos_x2 = pos_x + obj->get_width();
     int pos_y2 = pos_y + obj->get_height();
 
+    //Insere na matriz "grid" um Objeto (que herda Ponto), para sinalizar todas as posições que ele ocupa
     for (int i = pos_x; i < pos_x2; i++)
         for (int j = pos_y; j < pos_y2; j++)  
             grid[i][j] = obj;
@@ -43,6 +47,7 @@ void Grid::inserir(Objeto* obj) {
 
 void Grid::inserir(Feromonio* feromonio) {
 
+    //Pega a posição do ferômonio e insere na matriz
     int pos_x = feromonio->get_pos_x();
     int pos_y = feromonio->get_pos_y();
 
@@ -53,17 +58,6 @@ void Grid::inserir(Feromonio* feromonio) {
 
 }
 
-int Grid::verf_colisao(int x, int y) {
-
-    if ((x >= linhas) || (y >= colunas) || (x < 0) || (y < 0))
-        return 1;
-
-    if (grid[x][y])
-        return grid[x][y]->type;
-
-    return 0;
-
-}
 
 void Grid::exibir(Renderer *r) {
 
@@ -77,23 +71,8 @@ void Grid::exibir(Renderer *r) {
     // Exibir Formigas
 
     for (int i = 0; i < formigas.size(); i++) {
-
-        int dir_x = formigas[i]->get_dir_x();
-        int dir_y = formigas[i]->get_dir_y();
             
         formigas[i]->girar_aleatorio();
-
-        // int obj_colisao = get_GridPosType(dir_x, dir_y);
-
-        // if (obj_colisao == 1 || obj_colisao == -1)
-        //     formigas[i]->girar_vetor(90);
-
-        // if (obj_colisao == 4) {
-        //     formigas[i]->girar_vetor(90);
-        //     formigas[i]->hasFood = 1;
-
-        // }
-
             
         if (formigas[i]->soltarFeromonio()) {
 
@@ -150,13 +129,13 @@ void Grid::exibir(Renderer *r) {
 
 int Grid::get_GridPosType(int pos_x, int pos_y) {
     
-    if ( (pos_x > 0) && (pos_x <= linhas) && (pos_y > 0) && (pos_y <= colunas)) {
+    if ( (pos_x >= 0) && (pos_x < linhas) && (pos_y >= 0) && (pos_y < colunas)) {
         if (grid[pos_x][pos_y])
             return grid[pos_x][pos_y]->type;
 
         return -2;
     }
-
+    
     return -1;
 
 } 

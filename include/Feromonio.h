@@ -10,11 +10,12 @@ class Feromonio : public Ponto {
 
         int duracao;
         
-
     public:
 
-        Feromonio(int x, int y, int duracao, bool comida);
-
+        // Construtor
+        Feromonio(int x, int y, int duracao, bool comida); 
+        
+        // Retorna 1 se acabou sua duração
         bool diminuirDuracao();
 
         bool achouComida;

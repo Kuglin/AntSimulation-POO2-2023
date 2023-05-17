@@ -13,7 +13,7 @@ Objeto::Objeto(int x, int y, int w, int h) : Ponto(x , y){
     rect.w = w;
     rect.h = h;
 
-    type = 1;
+    type = Type::objeto;
 
 }
 

@@ -8,33 +8,34 @@
 #include <iostream>
 using namespace std;
 
-#define PI 3.14159265
-
 Formiga::Formiga(int x, int y, int w, int h, float vel, int angulo_inicial) : Objeto(x, y, w, h){
 
-    velocidade = vel;
+    this->velocidade = vel;
 
-    dir_x = 0;
-    dir_y = 0;
+    this->dir_x = 0;
+    this->dir_y = 0;
 
-    pos_xR = x;
-    pos_yR = y;
+    this->pos_xR = x;
+    this->pos_yR = y;
 
-    angulo = angulo_inicial;
-    aceleracao_angular = ((rand() % 3)-1);
+    this->angulo = angulo_inicial;
+    this->aceleracao_angular = (gerar_random(-1, 1));
+
+    this->type = Type::formiga;
 
 }
 
-void Formiga::girar_vetor(int ang) {
+void Formiga::girar_vetor(int angulo) {
 
-    angulo = int(angulo + ang) % 360;
+    this->angulo = int(this->angulo + angulo) % 360;
 
-    dir_x = velocidade * cos(angulo * PI/180);
-    dir_y = velocidade * sin(angulo * PI/180);
+    dir_x = velocidade * cos(conv_radianos(this->angulo));
+    dir_y = velocidade * sin(conv_radianos(this->angulo));
 }
 
 void Formiga::girar_aleatorio() {
 
+    // Se o número aleatório for 0, a direção da formiga muda;
     if ((gerar_random(0,50)) == 0)
         aceleracao_angular = gerar_random(-1,1);
 
@@ -43,24 +44,26 @@ void Formiga::girar_aleatorio() {
 }
 
 void Formiga::mover_dir() {
-
     move_x(dir_x);
-    move_y(dir_y);
-    
+    move_y(dir_y);  
 }
 
 void Formiga::move_x(float v) {
 
+    //Para quando a formiga anda com alguma angulação, pos_xR é a quantidade de movimento real do eixo x;
     pos_xR += v;
     pos_x = pos_xR;
+    //O rect é o objeto do SDL que representa a formiga. É alterado x para alterar na tela;
     rect.x = pos_x;
 
 }
 
 void Formiga::move_y(float v) {
-
+    
+    //Para quando a formiga anda com alguma angulação, pos_yR é a quantidade de movimento real do eixo y;
     pos_yR += v;
     pos_y = pos_yR;
+    //O rect é o objeto do SDL que representa a formiga. É alterado y para alterar na tela;
     rect.y = pos_y;
 
 }
@@ -68,27 +71,14 @@ void Formiga::move_y(float v) {
 void Formiga::draw(Renderer *r){
     
     r->drawRect(&rect);
-    r->drawLine(pos_x + width/2, 
-    pos_y + height/2, 
-    pos_x + width/2 + dir_x * width ,
-    pos_y + height/2 + dir_y * height);
-
-}
-
-int Formiga::get_dir_y() {
-
-    return (dir_y*5 + pos_yR + width/2);
-
-}
-
-int Formiga::get_dir_x() {
-    
-    return (dir_x*5 + pos_xR + height/2);
+    r->drawLine(pos_x + width/2, pos_y + height/2, pos_x + width/2 + dir_x * width , pos_y + height/2 + dir_y * height);
 
 }
 
 bool Formiga::soltarFeromonio() {
 
+    //Executa toda vez que a formiga anda, quando tempoFer chegar a 0, solta o ferômonio,
+    //e restabelece o tempoFer para 10. Retorna 1 se soltar o ferômonio, 0 se não
     tempoFer -= 1;
 
     if (tempoFer == 0) {
@@ -108,17 +98,21 @@ void Formiga::visao(Grid* grid, Renderer *r) {
 
     r->changeColor(255,255,100,255);
 
-    int maxAng = 0;
+    //Direção (ângulo) que possui mais concentração de ferômonios
+    int dirFeromonio = 0;
+    //Armazena a maior quantidade de ferômonio
     int max_qtdFer = 0;
+    //quantidade de ferômonio no ângulo atual 
     int qtd_fer = 0;
+
 
     for (int ang = -30; ang < 30; ang++) {
 
         for (int i = distVisao/2; i < distVisao; i++) {
             
 
-            vis_x = (i * cos((ang + angulo) * PI/180)) + pos_x + width/2;
-            vis_y = (i * sin((ang + angulo) * PI/180)) + pos_y + height/2;
+            vis_x = (i * cos(conv_radianos(ang + this->angulo))) + pos_x + width/2;
+            vis_y = (i * sin(conv_radianos(ang + this->angulo))) + pos_y + height/2;
 
             r->drawPoint(vis_x, vis_y);
 
@@ -126,26 +120,20 @@ void Formiga::visao(Grid* grid, Renderer *r) {
 
             int pos_type = grid->get_GridPosType(vis_x, vis_y);
 
-            if ( pos_type == (hasFood+9))
+            // Verica se a posição no campo de visao é uma comida
+            if (pos_type == (hasFood + 5))
                 qtd_fer += 1;
             
+            //Verifica se é parede, se for vira
             else if (pos_type == -1 || pos_type == 1)
-                angulo += 30;
+                angulo += 15;
 
+            //Verific se é comida, se for hasFood é igual a 1
             else if (pos_type == 4) {
                 angulo += 30;
                 hasFood = 1;
 
             }
         }
-
-        if (qtd_fer > max_qtdFer) {
-            qtd_fer = max_qtdFer;
-            maxAng = ang;
-        }
-
     }
-
-    girar_vetor(maxAng);
-
 }

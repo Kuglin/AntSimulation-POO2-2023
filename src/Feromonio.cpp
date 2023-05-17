@@ -1,15 +1,15 @@
 #include "Feromonio.h"
 
-Feromonio::Feromonio(int x, int y, int duracao, bool comida) : Ponto(x, y){
+Feromonio::Feromonio(int x, int y, int duracao, bool achouComida) : Ponto(x, y){
 
     this->duracao = duracao;
 
-    if (comida)
-        type = 9;
+    if (achouComida)
+        this->type = Type::feromonioComida;
     else
-        type = 10;
+        this->type = Type::feromonioCasa;
 
-    achouComida = comida;
+    this->achouComida = achouComida;
 
 }
 

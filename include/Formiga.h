@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef FORMIGA_H
 #define FORMIGA_H
 
@@ -16,13 +14,12 @@ class Formiga : public Objeto {
         float dir_x;
         float dir_y;
 
-        // Pos Relativa
+        // Posição Relativa
         float pos_xR;
         float pos_yR;
 
-        int distVisao = 30;
-        int areaVisao = 30;
-        int atracaoFeromonio = 10;
+        // Campo de visão
+        int distVisao = 60;
 
         // Modulo do Vetor anterior, indica quantos pixels a formiga se move
         float velocidade;
@@ -30,9 +27,10 @@ class Formiga : public Objeto {
         // Angulo do Vetor de direção da formiga
         int angulo;
 
-        // Mudança que ocorre no angulo a cada tick
+        // Mudança que ocorre no angulo
         int aceleracao_angular;
 
+        // Intervalo entre soltar feromonio
         int tempoFer = 10;
 
     public:
@@ -59,11 +57,10 @@ class Formiga : public Objeto {
         // Desenha formiga na tela
         void draw(Renderer *r);
 
+        // Retorna 1 se for momento de soltar feromonio ou 0 se não
         bool soltarFeromonio();
 
-        int get_dir_x();
-        int get_dir_y();
-
+        // 0 se está carregando comida ou 1 se está com comida
         bool hasFood = 0;
         
 };

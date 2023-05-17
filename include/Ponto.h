@@ -1,6 +1,8 @@
 #ifndef PONTO_H
 #define PONTO_H
 
+#include "Tipo.h"
+
 class Ponto {
 
     protected:
@@ -10,8 +12,11 @@ class Ponto {
 
     public:
 
+        //Construtor
         Ponto(int x, int y);
-        int type = 0;
+
+        //Tipo do Ponto
+        Type type = Type::ponto;
 
         //Getters
         int get_pos_x();
