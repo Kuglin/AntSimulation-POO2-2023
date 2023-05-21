@@ -19,7 +19,8 @@ class Formiga : public Objeto {
         float pos_yR;
 
         // Campo de visão
-        int distVisao = 60;
+        int distVisao = 30;
+        int angVisao = 60;
 
         // Modulo do Vetor anterior, indica quantos pixels a formiga se move
         float velocidade;
@@ -45,7 +46,7 @@ class Formiga : public Objeto {
         void girar_aleatorio();
 
         // Move formiga, conforme a direção indicada pelo vetor
-        void mover_dir();
+        void mover_dir(Grid* grid);
 
         // Funcões para mover o Formiga
         void move_x(float v);

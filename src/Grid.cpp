@@ -53,8 +53,7 @@ void Grid::inserir(Feromonio* feromonio) {
 
     feromonios.push_back(feromonio);
 
-    if (get_GridPosType(pos_x, pos_y) >= 0)
-        grid[pos_x][pos_y] = feromonio;
+    grid[pos_x][pos_y] = feromonio;
 
 }
 
@@ -79,12 +78,12 @@ void Grid::exibir(Renderer *r) {
             int pos_x = formigas[i]->get_pos_x() + formigas[i]->get_width()/2;
             int pos_y = formigas[i]->get_pos_y() + formigas[i]->get_height()/2;
         
-            inserir(new Feromonio(pos_x, pos_y, 500, formigas[i]->hasFood));
+            inserir(new Feromonio(pos_x, pos_y, 1000, formigas[i]->hasFood));
 
         }
         
         formigas[i]->visao(this, r);
-        formigas[i]->mover_dir();
+        formigas[i]->mover_dir(this);
 
         r->changeColor(255, 255, 255, 255);
         formigas[i]->draw(r);

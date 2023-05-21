@@ -43,9 +43,21 @@ void Formiga::girar_aleatorio() {
 
 }
 
-void Formiga::mover_dir() {
+void Formiga::mover_dir(Grid* grid) {
+
+    int pos_type = grid->get_GridPosType(dir_x+pos_x+height/2, dir_y+pos_y+width/2);
+
+    if ( pos_type == 1 || pos_type == -1)
+        girar_vetor(180);
+
+    else if (pos_type == 4) {
+        girar_vetor(180);
+        hasFood = 1;
+    }
+
     move_x(dir_x);
     move_y(dir_y);  
+
 }
 
 void Formiga::move_x(float v) {
@@ -98,42 +110,42 @@ void Formiga::visao(Grid* grid, Renderer *r) {
 
     r->changeColor(255,255,100,255);
 
-    //Direção (ângulo) que possui mais concentração de ferômonios
-    int dirFeromonio = 0;
-    //Armazena a maior quantidade de ferômonio
-    int max_qtdFer = 0;
-    //quantidade de ferômonio no ângulo atual 
-    int qtd_fer = 0;
+    int qtdFer = 0;
+    int qtdMaxFer = 0;
+    int angMax = -angVisao/2 + angVisao/3;
 
-
-    for (int ang = -30; ang < 30; ang++) {
-
-        for (int i = distVisao/2; i < distVisao; i++) {
+    for (int ini = -angVisao/2; ini < angVisao/2; ini+= angVisao/3) {
+        for (int ang = ini; ang < ini+angVisao/3; ang++) {
             
-
-            vis_x = (i * cos(conv_radianos(ang + this->angulo))) + pos_x + width/2;
-            vis_y = (i * sin(conv_radianos(ang + this->angulo))) + pos_y + height/2;
+            vis_x = (distVisao * cos(conv_radianos(ang + this->angulo))) + pos_x + width/2;
+            vis_y = (distVisao * sin(conv_radianos(ang + this->angulo))) + pos_y + height/2;
 
             r->drawPoint(vis_x, vis_y);
 
-            //cout << vis_y << "\n";
-
             int pos_type = grid->get_GridPosType(vis_x, vis_y);
+            cout << pos_type << "\n";
 
-            // Verica se a posição no campo de visao é uma comida
-            if (pos_type == (hasFood + 5))
-                qtd_fer += 1;
-            
-            //Verifica se é parede, se for vira
-            else if (pos_type == -1 || pos_type == 1)
-                angulo += 15;
+            if (pos_type == (hasFood + 5)) {
+                qtdFer += 1;
+            }
 
-            //Verific se é comida, se for hasFood é igual a 1
-            else if (pos_type == 4) {
-                angulo += 30;
-                hasFood = 1;
-
+            else if (pos_type == 4 && !hasFood) {
+                qtdFer += 10;
+                
             }
         }
+
+        if (qtdFer > qtdMaxFer) {
+
+            qtdMaxFer = qtdFer;
+            angMax = ini;
+
+        }
+
+        qtdFer = 0;
+            
     }
+
+    angulo += angMax + angVisao/6;
+
 }
