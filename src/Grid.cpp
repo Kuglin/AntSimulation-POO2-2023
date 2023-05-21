@@ -25,10 +25,10 @@ Grid::Grid(int linhas, int colunas, int qtd_formigas) {
     inserir(new Objeto(740, 540, 30, 30));
     grid[740][540]->type = Type::comida;
 
-    formigueiro = new Formigueiro(100, 100, 30, 30);
+    formigueiro = new Formigueiro(50, 50, 30, 30);
 
     inserir(formigueiro);
-    grid[100][100]->type = Type::formigueiro;
+    formigueiro->type = Type::formigueiro;
     
 }
 

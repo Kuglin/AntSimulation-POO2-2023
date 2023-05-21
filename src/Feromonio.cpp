@@ -1,6 +1,8 @@
 #include "Feromonio.h"
 #include <iostream>
 
+#define DURACAO_FEROMONIO 4000
+
 Feromonio::Feromonio(int x, int y, bool achouComida) : Ponto(x, y){
 
     if (achouComida) {
@@ -29,19 +31,19 @@ Feromonio::Feromonio(int x, int y, bool achouComida) : Ponto(x, y){
 
 bool Feromonio::diminuirDuracao() {
 
-    if (durFerCas > 0)
-        durFerCas -= 1;
+    if (durFerCas >= 0)
+        durFerCas -= qtdFerCas;
 
     if (durFerCas <= (qtdFerCas*DURACAO_FEROMONIO)-DURACAO_FEROMONIO)
         qtdFerCas -= 1;
 
-    if (durFerCom > 0)
-        durFerCom -= 1;
+    if (durFerCom >= 0)
+        durFerCom -= qtdFerCom;
 
     if (durFerCom <= (qtdFerCom*DURACAO_FEROMONIO)-DURACAO_FEROMONIO)
         qtdFerCom -= 1;
 
-    if (durFerCas < 1 && durFerCom < 1)
+    if (durFerCas <= 1 && durFerCom <= 1)
         return 0;
 
     return 1;

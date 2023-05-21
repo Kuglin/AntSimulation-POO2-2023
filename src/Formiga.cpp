@@ -46,26 +46,45 @@ void Formiga::girar_aleatorio() {
 void Formiga::mover_dir(Grid* grid) {
 
     int pos_type = grid->get_GridPosType((dir_x*height)+pos_x+height/2, (dir_y*width)+pos_y+width/2);
+    
+    if ( pos_type == 1 || pos_type == -1) {
 
-    if ( pos_type == 1 || pos_type == -1)
-        girar_vetor(90);
+        int pos_type_lado_dir = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)+1, ((dir_y*width)+pos_y+width/2));
+        int pos_type_lado_esq = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)-1, ((dir_y*width)+pos_y+width/2));
 
+        if (pos_type_lado_dir == pos_type_lado_esq)
+            angulo*=-1;
+        
+        else {
+            if (dir_x < 0) {
+                if (dir_y < 0)
+                    angulo += 90;
+                else
+                    angulo -= 90;
+            }
+            else {
+                if (dir_y < 0)
+                    angulo -= 90;
+                else
+                    angulo += 90;
+            }  
+        }
+    }
+    
     else if (pos_type == 4) {
-        girar_vetor(90);
+        angulo += 180;
         hasFood = 1;
     }
 
     else if (pos_type == Type::formigueiro) {
-        girar_vetor(90);
+        angulo += 180;
 
         if (hasFood) {
             grid->formigueiro->qtd_comida += 1;
-            cout << "QTD COMIDA COLETADA: " << grid->formigueiro->qtd_comida << "\n";
+            hasFood = 0;
 
         }
-        
-        hasFood = 0;
-        
+
     }
 
     move_x(dir_x);
@@ -142,10 +161,10 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             }
 
             if (pos_type == Type::comida && !hasFood) {
-                qtdFer += 10;
+                qtdFer += 100;
             }
             else if (pos_type == Type::formigueiro && hasFood) {
-                qtdFer += 10;
+                qtdFer += 100;
             }
         }
 

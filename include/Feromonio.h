@@ -4,8 +4,6 @@
 #include "Objeto.h"
 #include "Renderer.h"
 
-#define DURACAO_FEROMONIO 2000
-
 class Feromonio : public Ponto {
 
     private:
