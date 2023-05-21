@@ -9,7 +9,7 @@
 #include <iostream>
 using namespace std;
 #define PI 3.14159265
-#define QTD_FORMIGAS 10
+#define QTD_FORMIGAS 100
 
 // Construtor
 Janela::Janela(const char *titulo, int w, int h)
@@ -78,8 +78,7 @@ void Janela::loop()
 
         renderer->update();
 
-        SDL_Delay(10);
-
+        SDL_Delay(0);
     }
 
 }

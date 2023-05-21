@@ -24,6 +24,11 @@ Grid::Grid(int linhas, int colunas, int qtd_formigas) {
 
     inserir(new Objeto(740, 540, 30, 30));
     grid[740][540]->type = Type::comida;
+
+    formigueiro = new Formigueiro(100, 100, 30, 30);
+
+    inserir(formigueiro);
+    grid[100][100]->type = Type::formigueiro;
     
 }
 
@@ -46,7 +51,6 @@ void Grid::inserir(Objeto* obj) {
 }
 
 void Grid::inserir(Feromonio* feromonio) {
-
     //Pega a posição do ferômonio e insere na matriz
     int pos_x = feromonio->get_pos_x();
     int pos_y = feromonio->get_pos_y();
@@ -54,6 +58,19 @@ void Grid::inserir(Feromonio* feromonio) {
     feromonios.push_back(feromonio);
 
     grid[pos_x][pos_y] = feromonio;
+
+}
+
+void Grid::inserirFer(int pos_x, int pos_y, bool achouComida) {
+
+    if (!existPos(pos_x, pos_y))
+        return;
+
+    else if (!grid[pos_x][pos_y])
+        inserir(new Feromonio(pos_x, pos_y, achouComida));
+
+    else if (grid[pos_x][pos_y]->type == Type::feromonioComida || grid[pos_x][pos_y]->type == Type::feromonioCasa)
+        static_cast<Feromonio*>(grid[pos_x][pos_y])->inserirFer(achouComida);
 
 }
 
@@ -71,14 +88,14 @@ void Grid::exibir(Renderer *r) {
 
     for (int i = 0; i < formigas.size(); i++) {
             
-        formigas[i]->girar_aleatorio();
+        //formigas[i]->girar_aleatorio();
             
         if (formigas[i]->soltarFeromonio()) {
 
             int pos_x = formigas[i]->get_pos_x() + formigas[i]->get_width()/2;
             int pos_y = formigas[i]->get_pos_y() + formigas[i]->get_height()/2;
         
-            inserir(new Feromonio(pos_x, pos_y, 1000, formigas[i]->hasFood));
+            inserirFer(pos_x, pos_y, formigas[i]->hasFood);
 
         }
         
@@ -137,4 +154,26 @@ int Grid::get_GridPosType(int pos_x, int pos_y) {
     
     return -1;
 
-} 
+}
+
+int Grid::getQtdFer(int pos_x, int pos_y, bool AchouComida) {
+
+    if (!existPos(pos_x, pos_y))
+        return 0;
+
+    if (grid[pos_x][pos_y]->type == Type::feromonioComida) {
+        return static_cast<Feromonio*>(grid[pos_x][pos_y])->getQtdFer(AchouComida);
+    }
+
+    return 0;
+
+}
+
+bool Grid::existPos(int pos_x, int pos_y) {
+
+    if ( (pos_x >= 0) && (pos_x < linhas) && (pos_y >= 0) && (pos_y < colunas))
+        return 1;
+
+    return 0;
+
+}

@@ -12,8 +12,8 @@ Formiga::Formiga(int x, int y, int w, int h, float vel, int angulo_inicial) : Ob
 
     this->velocidade = vel;
 
-    this->dir_x = 0;
-    this->dir_y = 0;
+    this->dir_x = vel * cos(conv_radianos(angulo_inicial));
+    this->dir_y = vel * sin(conv_radianos(angulo_inicial));
 
     this->pos_xR = x;
     this->pos_yR = y;
@@ -45,14 +45,27 @@ void Formiga::girar_aleatorio() {
 
 void Formiga::mover_dir(Grid* grid) {
 
-    int pos_type = grid->get_GridPosType(dir_x+pos_x+height/2, dir_y+pos_y+width/2);
+    int pos_type = grid->get_GridPosType((dir_x*height)+pos_x+height/2, (dir_y*width)+pos_y+width/2);
 
     if ( pos_type == 1 || pos_type == -1)
-        girar_vetor(180);
+        girar_vetor(90);
 
     else if (pos_type == 4) {
-        girar_vetor(180);
+        girar_vetor(90);
         hasFood = 1;
+    }
+
+    else if (pos_type == Type::formigueiro) {
+        girar_vetor(90);
+
+        if (hasFood) {
+            grid->formigueiro->qtd_comida += 1;
+            cout << "QTD COMIDA COLETADA: " << grid->formigueiro->qtd_comida << "\n";
+
+        }
+        
+        hasFood = 0;
+        
     }
 
     move_x(dir_x);
@@ -108,7 +121,7 @@ void Formiga::visao(Grid* grid, Renderer *r) {
     int vis_x;
     int vis_y; 
 
-    r->changeColor(255,255,100,255);
+    //r->changeColor(255,255,100,255);
 
     int qtdFer = 0;
     int qtdMaxFer = 0;
@@ -120,18 +133,19 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             vis_x = (distVisao * cos(conv_radianos(ang + this->angulo))) + pos_x + width/2;
             vis_y = (distVisao * sin(conv_radianos(ang + this->angulo))) + pos_y + height/2;
 
-            r->drawPoint(vis_x, vis_y);
+            //r->drawPoint(vis_x, vis_y);
 
             int pos_type = grid->get_GridPosType(vis_x, vis_y);
-            cout << pos_type << "\n";
 
-            if (pos_type == (hasFood + 5)) {
-                qtdFer += 1;
+            if (pos_type == Type::feromonioComida || pos_type == Type::feromonioCasa) {
+                qtdFer += grid->getQtdFer(vis_x, vis_y, hasFood); 
             }
 
-            else if (pos_type == 4 && !hasFood) {
+            if (pos_type == Type::comida && !hasFood) {
                 qtdFer += 10;
-                
+            }
+            else if (pos_type == Type::formigueiro && hasFood) {
+                qtdFer += 10;
             }
         }
 
@@ -146,6 +160,6 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             
     }
 
-    angulo += angMax + angVisao/6;
+    girar_vetor(angMax + angVisao/6);
 
 }
