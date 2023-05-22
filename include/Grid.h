@@ -4,6 +4,7 @@
 #define GRID_H
 
 #include <vector>
+#include <forward_list>
 using namespace std;
 
 #include "Objeto.h"
@@ -22,7 +23,7 @@ class Grid {
         //Listas dos itens do Grid
         vector<Objeto*> objetos;
 
-        vector<Feromonio*> feromonios;
+        forward_list<Feromonio*> feromonios;
 
         vector<Formiga*> formigas;
 
@@ -31,18 +32,16 @@ class Grid {
         int linhas;
         int colunas;
 
-        
-
     public:
 
-    Ponto*** grid;
+        Ponto*** grid;
 
         Grid(int linhas, int colunas, int qtd_formigas);
 
         void inserir(Objeto* obj);
         void inserir(Feromonio* feromonio);
 
-        void inserirFer(int pos_x, int pos_y, bool achouComida);
+        void inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r);
 
         void exibir(Renderer *r);
 

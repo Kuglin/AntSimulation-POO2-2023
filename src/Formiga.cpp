@@ -44,17 +44,18 @@ void Formiga::girar_aleatorio() {
 }
 
 void Formiga::mover_dir(Grid* grid) {
-
-    int pos_type = grid->get_GridPosType((dir_x*height)+pos_x+height/2, (dir_y*width)+pos_y+width/2);
     
+    int pos_type = grid->get_GridPosType((dir_x*height)+pos_x+height/2, (dir_y*width)+pos_y+width/2);
+
     if ( pos_type == 1 || pos_type == -1) {
 
         int pos_type_lado_dir = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)+1, ((dir_y*width)+pos_y+width/2));
         int pos_type_lado_esq = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)-1, ((dir_y*width)+pos_y+width/2));
 
-        if (pos_type_lado_dir == pos_type_lado_esq)
+        if (pos_type_lado_dir == pos_type_lado_esq) {
             angulo*=-1;
-        
+        }
+            
         else {
             if (dir_x < 0) {
                 if (dir_y < 0)
@@ -84,11 +85,12 @@ void Formiga::mover_dir(Grid* grid) {
             hasFood = 0;
 
         }
-
     }
 
+    girar_vetor(0);
+    
     move_x(dir_x);
-    move_y(dir_y);  
+    move_y(dir_y);
 
 }
 
@@ -113,6 +115,12 @@ void Formiga::move_y(float v) {
 }
 
 void Formiga::draw(Renderer *r){
+
+    if (hasFood)
+        r->changeColor(100,255,100,255);
+    
+    else
+        r->changeColor(255,255,255,255);
     
     r->drawRect(&rect);
     r->drawLine(pos_x + width/2, pos_y + height/2, pos_x + width/2 + dir_x * width , pos_y + height/2 + dir_y * height);
@@ -161,15 +169,14 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             }
 
             if (pos_type == Type::comida && !hasFood) {
-                qtdFer += 100;
+                qtdFer += 1000;
             }
             else if (pos_type == Type::formigueiro && hasFood) {
-                qtdFer += 100;
+                qtdFer += 1000;
             }
         }
 
         if (qtdFer > qtdMaxFer) {
-
             qtdMaxFer = qtdFer;
             angMax = ini;
 

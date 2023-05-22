@@ -4,6 +4,8 @@
 #include "Objeto.h"
 #include "Renderer.h"
 
+class Grid;
+
 class Feromonio : public Ponto {
 
     private:
@@ -13,11 +15,15 @@ class Feromonio : public Ponto {
 
         int qtdFerCas;
         int durFerCas;
+
+        Renderer* r;
+
+        
         
     public:
 
         // Construtor
-        Feromonio(int x, int y, bool comida); 
+        Feromonio(int x, int y, bool comida, Renderer* r, Grid* grid); 
         
         // Retorna 1 se acabou sua duração
         bool diminuirDuracao();
@@ -27,6 +33,8 @@ class Feromonio : public Ponto {
         int getQtdFer(bool achouComida);
 
         void inserirFer(bool achouComida);
+
+        Grid* grid;
 
 };      
 

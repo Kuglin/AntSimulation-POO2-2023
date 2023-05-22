@@ -1,9 +1,10 @@
 #include "Feromonio.h"
 #include <iostream>
+#include "Grid.h"
 
-#define DURACAO_FEROMONIO 4000
+#define DURACAO_FEROMONIO 500
 
-Feromonio::Feromonio(int x, int y, bool achouComida) : Ponto(x, y){
+Feromonio::Feromonio(int x, int y, bool achouComida, Renderer* r, Grid* grid) : Ponto(x, y){
 
     if (achouComida) {
         this->type = Type::feromonioComida;
@@ -27,9 +28,22 @@ Feromonio::Feromonio(int x, int y, bool achouComida) : Ponto(x, y){
     }
         
     this->achouComida = achouComida;
+
+    this->r = r;
+
+    this->grid = grid;
 }
 
 bool Feromonio::diminuirDuracao() {
+
+    if (achouComida)
+        r->changeColor(255, 100, 100, 255);
+
+    else
+        r->changeColor(100, 100, 255, 255);
+
+    if ((qtdFerCas + qtdFerCom) > 1)
+        r->drawPoint(pos_x, pos_y);
 
     if (durFerCas >= 0)
         durFerCas -= qtdFerCas;
@@ -51,10 +65,10 @@ bool Feromonio::diminuirDuracao() {
 
 int Feromonio::getQtdFer(bool achouComida) {
 
-    if (!achouComida) 
-        return qtdFerCom;
+    if (achouComida) 
+        return qtdFerCas;
 
-    return qtdFerCas;
+    return qtdFerCom;
 }
 
 void Feromonio::inserirFer(bool achouComida) {

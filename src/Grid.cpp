@@ -4,6 +4,15 @@
 #include <iostream>
 using namespace std;
 
+bool feromonioRemove (Feromonio *f) {
+    if(!f->diminuirDuracao()) {
+        f->grid->grid[f->get_pos_x()][f->get_pos_y()] = nullptr;
+        return 1;
+    };
+    
+    return 0;
+}
+
 Grid::Grid(int linhas, int colunas, int qtd_formigas) {
 
     this->linhas = linhas;
@@ -55,19 +64,19 @@ void Grid::inserir(Feromonio* feromonio) {
     int pos_x = feromonio->get_pos_x();
     int pos_y = feromonio->get_pos_y();
 
-    feromonios.push_back(feromonio);
+    this->feromonios.push_front(feromonio);
 
     grid[pos_x][pos_y] = feromonio;
 
 }
 
-void Grid::inserirFer(int pos_x, int pos_y, bool achouComida) {
+void Grid::inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r) {
 
-    if (!existPos(pos_x, pos_y))
-        return;
+    // if (!existPos(pos_x, pos_y))
+    //     return;
 
-    else if (!grid[pos_x][pos_y])
-        inserir(new Feromonio(pos_x, pos_y, achouComida));
+    if (!grid[pos_x][pos_y])
+        inserir(new Feromonio(pos_x, pos_y, achouComida, r, this));
 
     else if (grid[pos_x][pos_y]->type == Type::feromonioComida || grid[pos_x][pos_y]->type == Type::feromonioCasa)
         static_cast<Feromonio*>(grid[pos_x][pos_y])->inserirFer(achouComida);
@@ -95,7 +104,7 @@ void Grid::exibir(Renderer *r) {
             int pos_x = formigas[i]->get_pos_x() + formigas[i]->get_width()/2;
             int pos_y = formigas[i]->get_pos_y() + formigas[i]->get_height()/2;
         
-            inserirFer(pos_x, pos_y, formigas[i]->hasFood);
+            inserirFer(pos_x, pos_y, formigas[i]->hasFood, r);
 
         }
         
@@ -108,33 +117,9 @@ void Grid::exibir(Renderer *r) {
     }
 
     // Exibir Feromonios
+    feromonios.remove_if(feromonioRemove);
 
-    r->changeColor(100, 100, 255, 255);
-
-    for (int i = 0; i < feromonios.size(); i++) {
-        
-        int pos_x = feromonios[i]->get_pos_x();
-        int pos_y = feromonios[i]->get_pos_y();
-
-        if (feromonios[i]->achouComida)
-            r->changeColor(255, 100, 100, 255);
-            
-
-        else
-            r->changeColor(100, 100, 255, 255);
-            
-
-        r->drawPoint(pos_x, pos_y);
-        
-        if (!feromonios[i]->diminuirDuracao()) {
-            
-            grid[pos_x][pos_y] = nullptr;
-            delete feromonios[i];
-            feromonios.erase(feromonios.begin()+i);
-            
-        }
-
-    }
+    // COMIDA
 
     r->changeColor(100, 255, 100, 255);
 
@@ -158,8 +143,8 @@ int Grid::get_GridPosType(int pos_x, int pos_y) {
 
 int Grid::getQtdFer(int pos_x, int pos_y, bool AchouComida) {
 
-    if (!existPos(pos_x, pos_y))
-        return 0;
+    // if (!existPos(pos_x, pos_y))
+    //     return 0;
 
     if (grid[pos_x][pos_y]->type == Type::feromonioComida) {
         return static_cast<Feromonio*>(grid[pos_x][pos_y])->getQtdFer(AchouComida);
