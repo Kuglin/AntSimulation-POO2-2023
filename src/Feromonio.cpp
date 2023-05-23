@@ -19,11 +19,11 @@ Feromonio::Feromonio(int x, int y, bool achouComida, Renderer* r, Grid* grid) : 
     else {
         this->type = Type::feromonioCasa;
 
-        durFerCom = DURACAO_FEROMONIO;
-        qtdFerCom = 1;
+        durFerCom = 0;
+        qtdFerCom = 0;
 
-        durFerCas = 0;
-        qtdFerCas = 0;
+        durFerCas = DURACAO_FEROMONIO;
+        qtdFerCas = 1;
 
     }
         
@@ -65,12 +65,14 @@ bool Feromonio::diminuirDuracao() {
 
 int Feromonio::getQtdFer(bool achouComida) {
 
+//Caso a formiga tiver comida, segue os ferômonios de casa
     if (achouComida) 
         return qtdFerCas;
 
     return qtdFerCom;
 }
 
+//Insere mais ferômonios, varia o tipo inserido dependendo se a formiga tiver comida ou não
 void Feromonio::inserirFer(bool achouComida) {
 
     if (achouComida) {
