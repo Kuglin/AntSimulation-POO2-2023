@@ -34,6 +34,12 @@ Grid::Grid(int linhas, int colunas, int qtd_formigas) {
     inserir(new Objeto(740, 540, 30, 30));
     grid[740][540]->type = Type::comida;
 
+    inserir(new Objeto(740, 540, 30, 30));
+    grid[740][540]->type = Type::comida;
+
+    // inserir(new Objeto(740, 0, 30, 30));
+    // grid[500][300]->type = Type::comida;
+
     formigueiro = new Formigueiro(50, 50, 30, 30);
 
     inserir(formigueiro);
@@ -97,7 +103,7 @@ void Grid::exibir(Renderer *r) {
 
     for (int i = 0; i < formigas.size(); i++) {
             
-        //formigas[i]->girar_aleatorio();
+        // formigas[i]->girar_aleatorio();
             
         if (formigas[i]->soltarFeromonio()) {
 

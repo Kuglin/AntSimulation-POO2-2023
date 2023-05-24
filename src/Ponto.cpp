@@ -1,9 +1,18 @@
 #include "Ponto.h"
+#include "Grid.h"
 
 Ponto::Ponto(int x, int y) {
 
     pos_x = x;
     pos_y = y;
+
+}
+
+Ponto::~Ponto() {
+
+
+
+
 
 }
 

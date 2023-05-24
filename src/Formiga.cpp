@@ -47,7 +47,7 @@ void Formiga::mover_dir(Grid* grid) {
     
     int pos_type = grid->get_GridPosType((dir_x*height)+pos_x+height/2, (dir_y*width)+pos_y+width/2);
 
-    if ( pos_type == 1 || pos_type == -1) {
+    if ( (pos_type == 1 || pos_type == -1)) {
 
         int pos_type_lado_dir = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)+1, ((dir_y*width)+pos_y+width/2));
         int pos_type_lado_esq = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)-1, ((dir_y*width)+pos_y+width/2));
@@ -85,6 +85,13 @@ void Formiga::mover_dir(Grid* grid) {
             hasFood = 0;
 
         }
+    }
+
+    else if (pos_type == -2) {
+
+
+
+
     }
 
     girar_vetor(0);
@@ -160,7 +167,7 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             vis_x = (distVisao * cos(conv_radianos(ang + this->angulo))) + pos_x + width/2;
             vis_y = (distVisao * sin(conv_radianos(ang + this->angulo))) + pos_y + height/2;
 
-            //r->drawPoint(vis_x, vis_y);
+            // r->drawPoint(vis_x, vis_y);
 
             int pos_type = grid->get_GridPosType(vis_x, vis_y);
 
@@ -181,11 +188,14 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             angMax = ini;
 
         }
+        
+        else if (qtdFer == qtdMaxFer && angMax != -angVisao/6)
+            if (gerar_random(0,1))
+                angMax = ini;
 
         qtdFer = 0;
             
     }
 
-    girar_vetor(angMax + angVisao/6);
-
+     girar_vetor(angMax + angVisao/6);
 }
