@@ -5,7 +5,7 @@ INCLUDIR_DIR = ./include
 PROG_SOURCES = $(wildcard  $(SRC_DIR)/*)
 
 CXX = g++
-CXXFLAGS = -ISDL2 -Iinclude
+CXXFLAGS = -Iinclude
 RM = rm -f
 
 OBJECTS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(PROG_SOURCES))

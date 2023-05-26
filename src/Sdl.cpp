@@ -1,6 +1,7 @@
 #include "Sdl.h"
 #include <SDL2/SDL.h>
 #include "Janela.h"
+#include <SDL2/SDL_thread.h>
 
 #include <iostream>
 using namespace std;

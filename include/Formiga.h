@@ -20,7 +20,7 @@ class Formiga : public Objeto {
 
         // Campo de visão
         int distVisao = 30;
-        int angVisao = 60;
+        int angVisao = 180;
 
         // Modulo do Vetor anterior, indica quantos pixels a formiga se move
         float velocidade;

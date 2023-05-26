@@ -41,7 +41,6 @@ Grid::Grid(int linhas, int colunas, int qtd_formigas) {
     // grid[500][300]->type = Type::comida;
 
     formigueiro = new Formigueiro(50, 50, 30, 30);
-
     inserir(formigueiro);
     formigueiro->type = Type::formigueiro;
     
@@ -117,7 +116,6 @@ void Grid::exibir(Renderer *r) {
         formigas[i]->visao(this, r);
         formigas[i]->mover_dir(this);
 
-        r->changeColor(255, 255, 255, 255);
         formigas[i]->draw(r);
 
     }
@@ -148,9 +146,6 @@ int Grid::get_GridPosType(int pos_x, int pos_y) {
 }
 
 int Grid::getQtdFer(int pos_x, int pos_y, bool AchouComida) {
-
-    // if (!existPos(pos_x, pos_y))
-    //     return 0;
 
     if (grid[pos_x][pos_y]->type == Type::feromonioComida) {
         return static_cast<Feromonio*>(grid[pos_x][pos_y])->getQtdFer(AchouComida);

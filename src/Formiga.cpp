@@ -87,12 +87,6 @@ void Formiga::mover_dir(Grid* grid) {
         }
     }
 
-    else if (pos_type == -2) {
-
-
-
-
-    }
 
     girar_vetor(0);
     
@@ -123,11 +117,11 @@ void Formiga::move_y(float v) {
 
 void Formiga::draw(Renderer *r){
 
-    if (hasFood)
-        r->changeColor(100,255,100,255);
+    // if (hasFood)
+    //     r->changeColor(100,255,100,255);
     
-    else
-        r->changeColor(255,255,255,255);
+    // else
+    //     r->changeColor(255,255,255,255);
     
     r->drawRect(&rect);
     r->drawLine(pos_x + width/2, pos_y + height/2, pos_x + width/2 + dir_x * width , pos_y + height/2 + dir_y * height);
@@ -144,7 +138,6 @@ bool Formiga::soltarFeromonio() {
         
         tempoFer = 10;
         return 1;
-
     }
 
     return 0;
@@ -154,8 +147,6 @@ void Formiga::visao(Grid* grid, Renderer *r) {
 
     int vis_x;
     int vis_y; 
-
-    //r->changeColor(255,255,100,255);
 
     int qtdFer = 0;
     int qtdMaxFer = 0;
@@ -181,12 +172,16 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             else if (pos_type == Type::formigueiro && hasFood) {
                 qtdFer += 1000;
             }
+
+            else if (pos_type == 1 || pos_type == -1) {
+                qtdFer -= 100000;
+
+            }
         }
 
         if (qtdFer > qtdMaxFer) {
             qtdMaxFer = qtdFer;
             angMax = ini;
-
         }
         
         else if (qtdFer == qtdMaxFer && angMax != -angVisao/6)

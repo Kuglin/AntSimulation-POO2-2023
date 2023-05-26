@@ -59,8 +59,8 @@ void Janela::loop()
     grid->inserir(new Objeto(width-1, 0, 1, height));
     grid->inserir(new Objeto(0, height-1, width, 1));
     grid->inserir(new Objeto(100, 100, 200, 200));
-    // grid->inserir(new Objeto(400, 300, 300, 300));
-    // grid->inserir(new Objeto(400, 0, 150, 150));
+    grid->inserir(new Objeto(400, 300, 300, 300));
+    grid->inserir(new Objeto(400, 0, 150, 150));
 
     while (running)
     {   

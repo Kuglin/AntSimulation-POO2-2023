@@ -42,7 +42,7 @@ bool Feromonio::diminuirDuracao() {
     else
         r->changeColor(100, 100, 255, 255);
 
-    if ((qtdFerCas + qtdFerCom) > 1)
+    if ((qtdFerCas + qtdFerCom) > 5)
         r->drawPoint(pos_x, pos_y);
 
     if (durFerCas >= 0)
