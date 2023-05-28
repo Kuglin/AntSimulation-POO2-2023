@@ -34,6 +34,8 @@ class Formiga : public Objeto {
         // Intervalo entre soltar feromonio
         int tempoFer = 10;
 
+        int angAlgo = 0;
+
     public:
 
         // Construtor
@@ -58,11 +60,15 @@ class Formiga : public Objeto {
         // Desenha formiga na tela
         void draw(Renderer *r);
 
+        void update();
+
         // Retorna 1 se for momento de soltar feromonio ou 0 se não
         bool soltarFeromonio();
 
         // 0 se está carregando comida ou 1 se está com comida
         bool hasFood = 0;
+
+        void colide(int posEsqType, int posDirType);
         
 };
 

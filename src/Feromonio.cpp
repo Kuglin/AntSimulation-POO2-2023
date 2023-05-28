@@ -34,7 +34,9 @@ Feromonio::Feromonio(int x, int y, bool achouComida, Renderer* r, Grid* grid) : 
     this->grid = grid;
 }
 
-bool Feromonio::diminuirDuracao() {
+bool Feromonio::update() {
+
+    // DRAW
 
     if (achouComida)
         r->changeColor(255, 100, 100, 255);
@@ -42,8 +44,10 @@ bool Feromonio::diminuirDuracao() {
     else
         r->changeColor(100, 100, 255, 255);
 
-    if ((qtdFerCas + qtdFerCom) > 5)
-        r->drawPoint(pos_x, pos_y);
+    if ((qtdFerCas + qtdFerCom) > 1)
+        draw(r);
+
+    // DIMINUIR QTD FEROMONIO CASA
 
     if (durFerCas >= 0)
         durFerCas -= qtdFerCas;
@@ -51,11 +55,15 @@ bool Feromonio::diminuirDuracao() {
     if (durFerCas <= (qtdFerCas*DURACAO_FEROMONIO)-DURACAO_FEROMONIO)
         qtdFerCas -= 1;
 
+    // DIMINUIR QTD FEROMONIO COMIDA
+
     if (durFerCom >= 0)
         durFerCom -= qtdFerCom;
 
     if (durFerCom <= (qtdFerCom*DURACAO_FEROMONIO)-DURACAO_FEROMONIO)
         qtdFerCom -= 1;
+
+    // SE NENHUM TEM DURAÇÃO EXCLUI
 
     if (durFerCas <= 1 && durFerCom <= 1)
         return 0;
@@ -65,32 +73,25 @@ bool Feromonio::diminuirDuracao() {
 
 int Feromonio::getQtdFer(bool achouComida) {
 
-//Caso a formiga tiver comida, segue os ferômonios de casa
     if (achouComida) 
         return qtdFerCas;
 
     return qtdFerCom;
 }
 
-//Insere mais ferômonios, varia o tipo inserido dependendo se a formiga tiver comida ou não
 void Feromonio::inserirFer(bool achouComida) {
 
     if (achouComida) {
         qtdFerCom += 1;
         durFerCom += DURACAO_FEROMONIO;
-
-        if (qtdFerCom > qtdFerCas)
-            type = Type::feromonioComida;
-
     }
 
     else {
         qtdFerCas += 1;
         durFerCas += DURACAO_FEROMONIO;
-
-        if (qtdFerCas > qtdFerCom)
-            type = Type::feromonioCasa;
-
     }
+
+    if (qtdFerCom > qtdFerCas)
+            type = Type::feromonioComida;
 
 }

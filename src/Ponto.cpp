@@ -8,13 +8,7 @@ Ponto::Ponto(int x, int y) {
 
 }
 
-Ponto::~Ponto() {
-
-
-
-
-
-}
+Ponto::~Ponto() {}
 
 int Ponto::get_pos_x() {
 
@@ -24,5 +18,11 @@ int Ponto::get_pos_x() {
 int Ponto::get_pos_y() {
 
     return pos_y;
+
+}
+
+void Ponto::draw(Renderer *r) {
+
+    r->drawPoint(pos_x, pos_y);
 
 }

@@ -43,53 +43,64 @@ void Formiga::girar_aleatorio() {
 
 }
 
+void Formiga::colide(int posEsqType, int posDirType) {
+
+    if (posDirType == posEsqType) {
+            angulo *= -1;
+            girar_vetor(0);
+        }
+            
+    else {
+
+        if (dir_x < 0) {
+
+            if (dir_y < 0) girar_vetor(90);
+            else girar_vetor(-90);
+        }
+
+        else {
+            
+            if (dir_y < 0) girar_vetor(-90);
+            else girar_vetor(90);
+        }
+    }
+
+}
+
 void Formiga::mover_dir(Grid* grid) {
     
     int pos_type = grid->get_GridPosType((dir_x*height)+pos_x+height/2, (dir_y*width)+pos_y+width/2);
-
-    if ( (pos_type == 1 || pos_type == -1)) {
+    
+    if (pos_type != -2) {
 
         int pos_type_lado_dir = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)+1, ((dir_y*width)+pos_y+width/2));
         int pos_type_lado_esq = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)-1, ((dir_y*width)+pos_y+width/2));
 
-        if (pos_type_lado_dir == pos_type_lado_esq) {
-            angulo*=-1;
+        // SE VAI COLIDIR COM PAREDE
+        if ( (pos_type == 1 || pos_type == -1))
+            colide(pos_type_lado_esq, pos_type_lado_dir);
+        
+        // SE VAI COLIDIR COM COMIDA
+        else if (pos_type == 4) {
+            colide(pos_type_lado_esq, pos_type_lado_dir);
+            hasFood = 1;
+        }
+        
+        // SE VAI COLIDIR COM FORMIGUEIRO
+        else if (pos_type == Type::formigueiro) {
+
+            colide(pos_type_lado_esq, pos_type_lado_dir);
+
+            if (hasFood)
+                grid->formigueiro->qtd_comida += 1;
+
+            hasFood = 0;
         }
             
-        else {
-            if (dir_x < 0) {
-                if (dir_y < 0)
-                    angulo += 90;
-                else
-                    angulo -= 90;
-            }
-            else {
-                if (dir_y < 0)
-                    angulo -= 90;
-                else
-                    angulo += 90;
-            }  
-        }
-    }
-    
-    else if (pos_type == 4) {
-        angulo += 180;
-        hasFood = 1;
     }
 
-    else if (pos_type == Type::formigueiro) {
-        angulo += 180;
+    pos_type = (grid->get_GridPosType(pos_x + dir_x, pos_y + dir_y));
 
-        if (hasFood) {
-            grid->formigueiro->qtd_comida += 1;
-            hasFood = 0;
-
-        }
-    }
-
-
-    girar_vetor(0);
-    
     move_x(dir_x);
     move_y(dir_y);
 
@@ -100,6 +111,7 @@ void Formiga::move_x(float v) {
     //Para quando a formiga anda com alguma angulação, pos_xR é a quantidade de movimento real do eixo x;
     pos_xR += v;
     pos_x = pos_xR;
+
     //O rect é o objeto do SDL que representa a formiga. É alterado x para alterar na tela;
     rect.x = pos_x;
 
@@ -110,6 +122,7 @@ void Formiga::move_y(float v) {
     //Para quando a formiga anda com alguma angulação, pos_yR é a quantidade de movimento real do eixo y;
     pos_yR += v;
     pos_y = pos_yR;
+
     //O rect é o objeto do SDL que representa a formiga. É alterado y para alterar na tela;
     rect.y = pos_y;
 
@@ -117,11 +130,11 @@ void Formiga::move_y(float v) {
 
 void Formiga::draw(Renderer *r){
 
-    // if (hasFood)
-    //     r->changeColor(100,255,100,255);
+    if (hasFood)
+        r->changeColor(100,255,100,255);
     
-    // else
-    //     r->changeColor(255,255,255,255);
+    else
+        r->changeColor(255,255,255,255);
     
     r->drawRect(&rect);
     r->drawLine(pos_x + width/2, pos_y + height/2, pos_x + width/2 + dir_x * width , pos_y + height/2 + dir_y * height);
@@ -132,6 +145,7 @@ bool Formiga::soltarFeromonio() {
 
     //Executa toda vez que a formiga anda, quando tempoFer chegar a 0, solta o ferômonio,
     //e restabelece o tempoFer para 10. Retorna 1 se soltar o ferômonio, 0 se não
+
     tempoFer -= 1;
 
     if (tempoFer == 0) {
@@ -162,21 +176,21 @@ void Formiga::visao(Grid* grid, Renderer *r) {
 
             int pos_type = grid->get_GridPosType(vis_x, vis_y);
 
-            if (pos_type == Type::feromonioComida || pos_type == Type::feromonioCasa) {
-                qtdFer += grid->getQtdFer(vis_x, vis_y, hasFood); 
-            }
-
-            if (pos_type == Type::comida && !hasFood) {
+            // SE ENXERGA FEROMONIO
+            if (pos_type == Type::feromonioComida || pos_type == Type::feromonioCasa)
+                qtdFer += grid->getQtdFer(vis_x, vis_y, hasFood);
+            
+            // SE ENXERGA COMIDA
+            if (pos_type == Type::comida && !hasFood)
                 qtdFer += 1000;
-            }
-            else if (pos_type == Type::formigueiro && hasFood) {
-                qtdFer += 1000;
-            }
 
-            else if (pos_type == 1 || pos_type == -1) {
+            // SE ENXERGA FORMIGUEIRO
+            else if (pos_type == Type::formigueiro && hasFood)
+                qtdFer += 1000;
+
+            // SE ENXERGA OBSTACULO
+            else if (pos_type == 1 || pos_type == -1)
                 qtdFer -= 100000;
-
-            }
         }
 
         if (qtdFer > qtdMaxFer) {
@@ -185,12 +199,13 @@ void Formiga::visao(Grid* grid, Renderer *r) {
         }
         
         else if (qtdFer == qtdMaxFer && angMax != -angVisao/6)
-            if (gerar_random(0,1))
+            if (gerar_random(0,1)) {
                 angMax = ini;
+            } 
 
         qtdFer = 0;
             
     }
 
-     girar_vetor(angMax + angVisao/6);
+    girar_vetor((angMax + angVisao/6));
 }

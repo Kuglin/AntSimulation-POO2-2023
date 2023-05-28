@@ -38,7 +38,9 @@ class Grid {
 
         void inserir(Objeto* obj);
         void inserir(Feromonio* feromonio);
+        void inserir(Formigueiro* formigueiro);
 
+        void inserirCom(Objeto* obj);
         void inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r);
 
         void exibir(Renderer *r);

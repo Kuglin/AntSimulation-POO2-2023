@@ -5,7 +5,8 @@
 using namespace std;
 
 bool feromonioRemove (Feromonio *f) {
-    if(!f->diminuirDuracao()) {
+
+    if(!f->update()) {
         f->grid->grid[f->get_pos_x()][f->get_pos_y()] = nullptr;
         return 1;
     };
@@ -30,19 +31,6 @@ Grid::Grid(int linhas, int colunas, int qtd_formigas) {
     //Gera a quantidade de formigas especificada no construtor, com uma direção aleatória
     for (int i = 0; i < qtd_formigas; i++)
         formigas.push_back(new Formiga(300, 400, 10, 10, 1, gerar_random(0,360)));
-
-    inserir(new Objeto(740, 540, 30, 30));
-    grid[740][540]->type = Type::comida;
-
-    inserir(new Objeto(740, 540, 30, 30));
-    grid[740][540]->type = Type::comida;
-
-    // inserir(new Objeto(740, 0, 30, 30));
-    // grid[500][300]->type = Type::comida;
-
-    formigueiro = new Formigueiro(50, 50, 30, 30);
-    inserir(formigueiro);
-    formigueiro->type = Type::formigueiro;
     
 }
 
@@ -75,12 +63,48 @@ void Grid::inserir(Feromonio* feromonio) {
 
 }
 
+void Grid::inserir(Formigueiro* formigueiro) {
+
+    formigueiro->type = Type::formigueiro;
+
+    this->formigueiro = formigueiro;
+
+    //Pega a posição do objeto
+    int pos_x = formigueiro->get_pos_x();
+    int pos_y = formigueiro->get_pos_y();
+
+    int pos_x2 = pos_x + formigueiro->get_width();
+    int pos_y2 = pos_y + formigueiro->get_height();
+
+    //Insere na matriz "grid" um Objeto (que herda Ponto), para sinalizar todas as posições que ele ocupa
+    for (int i = pos_x; i < pos_x2; i++)
+        for (int j = pos_y; j < pos_y2; j++)  
+            grid[i][j] = formigueiro;
+
+}
+
+void Grid::inserirCom(Objeto* obj) {
+
+    obj->type = Type::comida;
+    comidas.push_back(obj);
+
+    //Pega a posição do objeto
+    int pos_x = obj->get_pos_x();
+    int pos_y = obj->get_pos_y();
+
+    int pos_x2 = pos_x + obj->get_width();
+    int pos_y2 = pos_y + obj->get_height();
+
+    //Insere na matriz "grid" um Objeto (que herda Ponto), para sinalizar todas as posições que ele ocupa
+    for (int i = pos_x; i < pos_x2; i++)
+        for (int j = pos_y; j < pos_y2; j++)  
+            grid[i][j] = obj;
+
+}
+
 void Grid::inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r) {
 
-    // if (!existPos(pos_x, pos_y))
-    //     return;
-
-    if (!grid[pos_x][pos_y])
+    if (grid[pos_x][pos_y] == nullptr)
         inserir(new Feromonio(pos_x, pos_y, achouComida, r, this));
 
     else if (grid[pos_x][pos_y]->type == Type::feromonioComida || grid[pos_x][pos_y]->type == Type::feromonioCasa)
@@ -102,8 +126,6 @@ void Grid::exibir(Renderer *r) {
 
     for (int i = 0; i < formigas.size(); i++) {
             
-        // formigas[i]->girar_aleatorio();
-            
         if (formigas[i]->soltarFeromonio()) {
 
             int pos_x = formigas[i]->get_pos_x() + formigas[i]->get_width()/2;
@@ -123,8 +145,10 @@ void Grid::exibir(Renderer *r) {
     // Exibir Feromonios
     feromonios.remove_if(feromonioRemove);
 
-    // COMIDA
+    // Exibir Formigueiro
+    r->drawRect(formigueiro->get_rect());
 
+    // Exibir Comida
     r->changeColor(100, 255, 100, 255);
 
     for (int i=0; i < comidas.size(); i++)

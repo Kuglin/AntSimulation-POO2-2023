@@ -26,7 +26,7 @@ class Feromonio : public Ponto {
         Feromonio(int x, int y, bool comida, Renderer* r, Grid* grid); 
         
         // Retorna 1 se acabou sua duração
-        bool diminuirDuracao();
+        bool update();
 
         bool achouComida;
 

@@ -27,6 +27,8 @@ class Ponto {
         //Tipo do Ponto
         Type type = Type::ponto;
 
+        void draw(Renderer *r);
+
         //Getters
         int get_pos_x();
         int get_pos_y();

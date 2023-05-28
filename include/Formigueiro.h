@@ -9,8 +9,7 @@ class Formigueiro : public Objeto{
 
         Formigueiro(int x, int y, int w, int h);
         int qtd_comida;
-
-    
+        
 };
 
 #endif

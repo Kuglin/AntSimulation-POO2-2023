@@ -54,13 +54,20 @@ void Janela::loop()
 
     Grid *grid = new Grid(800, 600, QTD_FORMIGAS);
 
+    // PAREDES
     grid->inserir(new Objeto(0, 0, width, 1));
     grid->inserir(new Objeto(0, 0, 1, height));
     grid->inserir(new Objeto(width-1, 0, 1, height));
     grid->inserir(new Objeto(0, height-1, width, 1));
-    grid->inserir(new Objeto(100, 100, 200, 200));
+
+    // OBSTACULOS
+    grid->inserir(new Objeto(100, 100, 200, 300));
     grid->inserir(new Objeto(400, 300, 300, 300));
     grid->inserir(new Objeto(400, 0, 150, 150));
+
+    // FORMIGUEIRA / COMIDA
+    grid->inserir(new Formigueiro(50, 50, 30, 30));
+    grid->inserirCom(new Objeto(740, 540, 30, 30));
 
     while (running)
     {   
