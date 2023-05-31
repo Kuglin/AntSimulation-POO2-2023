@@ -44,7 +44,7 @@ bool Feromonio::update() {
     else
         r->changeColor(100, 100, 255, 255);
 
-    if ((qtdFerCas + qtdFerCom) > 1)
+    // if ((qtdFerCas + qtdFerCom) > 1)
         draw(r);
 
     // DIMINUIR QTD FEROMONIO CASA
@@ -73,10 +73,9 @@ bool Feromonio::update() {
 
 int Feromonio::getQtdFer(bool achouComida) {
 
-    if (achouComida) 
-        return qtdFerCas;
-
-    return qtdFerCom;
+    if (achouComida)
+        return durFerCas;
+    return durFerCom;
 }
 
 void Feromonio::inserirFer(bool achouComida) {

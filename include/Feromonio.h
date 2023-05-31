@@ -18,8 +18,6 @@ class Feromonio : public Ponto {
 
         Renderer* r;
 
-        
-        
     public:
 
         // Construtor

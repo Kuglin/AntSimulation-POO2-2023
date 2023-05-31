@@ -27,6 +27,11 @@ Formiga::Formiga(int x, int y, int w, int h, float vel, int angulo_inicial) : Ob
 
 void Formiga::girar_vetor(int angulo) {
 
+    if (angulo > 20)
+        angulo = 20;
+    else if (angulo < -20)
+        angulo = -20;
+
     this->angulo = int(this->angulo + angulo) % 360;
 
     dir_x = velocidade * cos(conv_radianos(this->angulo));
@@ -47,23 +52,25 @@ void Formiga::colide(int posEsqType, int posDirType) {
 
     if (posDirType == posEsqType) {
             angulo *= -1;
-            girar_vetor(0);
+            
         }
             
     else {
 
         if (dir_x < 0) {
 
-            if (dir_y < 0) girar_vetor(90);
-            else girar_vetor(-90);
+            if (dir_y < 0) angulo += 90;
+            else angulo = 90;
         }
 
         else {
             
-            if (dir_y < 0) girar_vetor(-90);
-            else girar_vetor(90);
+            if (dir_y < 0) angulo -= 90;
+            else angulo += 90;
         }
     }
+
+    girar_vetor(0);
 
 }
 
@@ -73,23 +80,25 @@ void Formiga::mover_dir(Grid* grid) {
     
     if (pos_type != -2) {
 
-        int pos_type_lado_dir = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)+1, ((dir_y*width)+pos_y+width/2));
-        int pos_type_lado_esq = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)-1, ((dir_y*width)+pos_y+width/2));
-
         // SE VAI COLIDIR COM PAREDE
-        if ( (pos_type == 1 || pos_type == -1))
+        if ( (pos_type == 1 || pos_type == -1)) {
+            int pos_type_lado_dir = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)+1, ((dir_y*width)+pos_y+width/2));
+            int pos_type_lado_esq = grid->get_GridPosType(((dir_x*height)+pos_x+height/2)-1, ((dir_y*width)+pos_y+width/2));
             colide(pos_type_lado_esq, pos_type_lado_dir);
+        }
         
         // SE VAI COLIDIR COM COMIDA
         else if (pos_type == 4) {
-            colide(pos_type_lado_esq, pos_type_lado_dir);
+            angulo += 180;
+            girar_vetor(0);
             hasFood = 1;
         }
         
         // SE VAI COLIDIR COM FORMIGUEIRO
         else if (pos_type == Type::formigueiro) {
 
-            colide(pos_type_lado_esq, pos_type_lado_dir);
+            angulo += 180;
+            girar_vetor(0);
 
             if (hasFood)
                 grid->formigueiro->qtd_comida += 1;
@@ -172,6 +181,8 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             vis_x = (distVisao * cos(conv_radianos(ang + this->angulo))) + pos_x + width/2;
             vis_y = (distVisao * sin(conv_radianos(ang + this->angulo))) + pos_y + height/2;
 
+            // if (ini == -angVisao/2 + angVisao/3) r->changeColor(255 ,0 ,255, 255);
+            // else r->changeColor(255 ,255 ,0, 255);
             // r->drawPoint(vis_x, vis_y);
 
             int pos_type = grid->get_GridPosType(vis_x, vis_y);
@@ -189,8 +200,8 @@ void Formiga::visao(Grid* grid, Renderer *r) {
                 qtdFer += 1000;
 
             // SE ENXERGA OBSTACULO
-            else if (pos_type == 1 || pos_type == -1)
-                qtdFer -= 100000;
+            // else if (pos_type == 1 || pos_type == -1)
+            //     qtdFer -= 100000;
         }
 
         if (qtdFer > qtdMaxFer) {

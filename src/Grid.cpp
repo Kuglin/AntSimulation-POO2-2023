@@ -14,7 +14,7 @@ bool feromonioRemove (Feromonio *f) {
     return 0;
 }
 
-Grid::Grid(int linhas, int colunas, int qtd_formigas) {
+Grid::Grid(int linhas, int colunas) {
 
     this->linhas = linhas;
     this->colunas = colunas;
@@ -27,10 +27,6 @@ Grid::Grid(int linhas, int colunas, int qtd_formigas) {
         for (int j = 0; j < (colunas); j++)
             grid[i][j] = nullptr;
     }
-
-    //Gera a quantidade de formigas especificada no construtor, com uma direção aleatória
-    for (int i = 0; i < qtd_formigas; i++)
-        formigas.push_back(new Formiga(300, 400, 10, 10, 1, gerar_random(0,360)));
     
 }
 
@@ -112,6 +108,14 @@ void Grid::inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r) {
 
 }
 
+void Grid::inserirFormigas(int qtd) {
+
+    //Gera a quantidade de formigas especificada, com uma direção aleatória
+    for (int i = 0; i < qtd; i++)
+        formigas.push_back(new Formiga(formigueiro->get_pos_x()+20, formigueiro->get_pos_y()+0, 10, 10, 1, gerar_random(0,360)));
+
+}
+
 
 void Grid::exibir(Renderer *r) {
 
@@ -136,8 +140,9 @@ void Grid::exibir(Renderer *r) {
         }
         
         formigas[i]->visao(this, r);
+        formigas[i]->girar_aleatorio();
         formigas[i]->mover_dir(this);
-
+        
         formigas[i]->draw(r);
 
     }
@@ -171,11 +176,7 @@ int Grid::get_GridPosType(int pos_x, int pos_y) {
 
 int Grid::getQtdFer(int pos_x, int pos_y, bool AchouComida) {
 
-    if (grid[pos_x][pos_y]->type == Type::feromonioComida) {
-        return static_cast<Feromonio*>(grid[pos_x][pos_y])->getQtdFer(AchouComida);
-    }
-
-    return 0;
+    return static_cast<Feromonio*>(grid[pos_x][pos_y])->getQtdFer(AchouComida);
 
 }
 
