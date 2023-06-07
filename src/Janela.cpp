@@ -9,7 +9,7 @@
 #include <iostream>
 using namespace std;
 #define PI 3.14159265
-#define QTD_FORMIGAS 750
+#define QTD_FORMIGAS 100
 
 // Construtor
 Janela::Janela(const char *titulo, int w, int h)
@@ -64,9 +64,9 @@ void Janela::loop()
     grid->inserir(new Objeto(0, height-1, width, 1));
 
     // OBSTACULOS
-    grid->inserir(new Objeto(100, 100, 200, 300));
-    grid->inserir(new Objeto(400, 150, 300, 300));
-    grid->inserir(new Objeto(400, 0, 150, 150));
+    // grid->inserir(new Objeto(100, 100, 200, 300));
+    // grid->inserir(new Objeto(400, 150, 300, 300));
+    // grid->inserir(new Objeto(400, 0, 150, 150));
 
     // FORMIGUEIRO / COMIDA / FORMIGA
     grid->inserir(new Formigueiro(50, 50, 30, 30));
@@ -85,11 +85,24 @@ void Janela::loop()
         case 0:
             running = 0;
             break;
+
+        case 1: break;
+
         case 2:
 
             SDL_GetMouseState(&mouseX, &mouseY);
             grid->inserir(new Objeto(mouseX - 20, mouseY - 20, 40, 40));
-        } 
+            cout << "btn dir \n";
+            break;
+        
+        case 3:
+
+            cout << "btn esq \n";
+            SDL_GetMouseState(&mouseX, &mouseY);
+            grid->removeObjeto(mouseX, mouseY);
+            break;
+        
+        }
 
         grid->exibir(renderer);
 

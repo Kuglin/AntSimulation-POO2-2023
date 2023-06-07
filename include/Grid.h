@@ -62,6 +62,8 @@ class Grid {
         // Retorna qtd de feromonios do local
         int getQtdFer(int pos_x, int pos_, bool achouComida);
 
+        void removeObjeto(int pos_x, int pos_y);
+
 };
 
 #endif

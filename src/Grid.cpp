@@ -1,6 +1,8 @@
 #include "Grid.h"
 #include "FuncoesAuxiliares.h"
 
+
+#include <algorithm>
 #include <iostream>
 using namespace std;
 
@@ -44,7 +46,8 @@ void Grid::inserir(Objeto* obj) {
     //Insere na matriz "grid" um Objeto (que herda Ponto), para sinalizar todas as posições que ele ocupa
     for (int i = pos_x; i < pos_x2; i++)
         for (int j = pos_y; j < pos_y2; j++)  
-            grid[i][j] = obj;
+            if (i < linhas && i >= 0 && j < colunas && j >= 0)
+                grid[i][j] = obj;
         
 }
 
@@ -134,7 +137,7 @@ void Grid::exibir(Renderer *r) {
     // Exibir Objetos
 
     for (int i = 0; i < objetos.size(); i++)
-        r->drawRect(objetos[i]->get_rect());
+        objetos[i]->draw(r);
 
     // Exibir Formigas
 
@@ -162,12 +165,12 @@ void Grid::exibir(Renderer *r) {
 
     // Exibir Formigueiro
     r->changeColor(255, 255, 0, 255);
-    r->drawRect(formigueiro->get_rect());
+    formigueiro->draw(r);
 
     // Exibir Comida
     r->changeColor(100, 255, 100, 255);
     for (int i=0; i < comidas.size(); i++)
-        r->drawRect(comidas[i]->get_rect());
+        comidas[i]->draw(r);
 
 }
 
@@ -197,4 +200,29 @@ bool Grid::existPos(int pos_x, int pos_y) {
 
     return 0;
 
+}
+
+void Grid::removeObjeto(int pos_x, int pos_y) {
+
+    if (existPos(pos_x, pos_y))
+        if (get_GridPosType(pos_x, pos_y) == 1) {
+            Objeto *o = static_cast<Objeto*>(grid[pos_x][pos_y]);
+
+            int o_pos_x1 = o->get_pos_x();
+            int o_pos_y1 = o->get_pos_y();
+            int o_pos_x2 = o_pos_x1 + o->get_width();
+            int o_pos_y2 = o_pos_y1 + o->get_height();
+
+            auto it = find(objetos.begin(), objetos.end(), o);
+            objetos.erase(it);
+            delete grid[pos_x][pos_y];
+
+            for (int i = o_pos_x1; i <  o_pos_x2; i++)
+                for (int j = o_pos_y1; j < o_pos_y2; j++)
+                    if (existPos(i, j)) 
+                        grid[i][j] = nullptr;
+            
+            cout << o_pos_x2 << "\n";
+
+        }
 }

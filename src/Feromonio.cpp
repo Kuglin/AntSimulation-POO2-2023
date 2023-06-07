@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Grid.h"
 
-#define DURACAO_FEROMONIO 500
+#define DURACAO_FEROMONIO 1000
 
 Feromonio::Feromonio(int x, int y, bool achouComida, Renderer* r, Grid* grid) : Ponto(x, y){
 

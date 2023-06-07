@@ -26,6 +26,7 @@ const SDL_Rect* Objeto::get_rect() {
 void Objeto::draw(Renderer *r) {
 
     r->drawRect(&rect);
+    r->fillRect(&rect);
 
 }
 

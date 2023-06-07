@@ -23,6 +23,8 @@ public:
     // Desenha retangulo na Tela a partir de um objeto SDL_Rect
     void drawRect(const SDL_Rect *rect);
 
+    void fillRect(const SDL_Rect *rect);
+
     // Muda cor dos Itens a serem desenhados
     void changeColor(int r, int g, int b, int a);
 

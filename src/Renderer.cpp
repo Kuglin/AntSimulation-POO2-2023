@@ -42,6 +42,12 @@ void Renderer::drawRect(const SDL_Rect *rect) {
 
 }
 
+void Renderer::fillRect(const SDL_Rect *rect) {
+
+    SDL_RenderFillRect(sdlRenderer, rect);
+
+}
+
 void Renderer::update()
 {
     SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, 255);
