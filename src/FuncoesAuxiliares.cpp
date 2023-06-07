@@ -1,5 +1,7 @@
 #include "FuncoesAuxiliares.h"
 
+#include <stdio.h>
+
 #define PI 3.14159265
 
 int gerar_random(int ini, int fim) {

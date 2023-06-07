@@ -50,6 +50,9 @@ int Janela::get_width()
 void Janela::loop()
 {   
 
+    int mouseX = 0;
+    int mouseY = 0;
+
     bool running = 1;
 
     Grid *grid = new Grid(800, 600);
@@ -62,12 +65,12 @@ void Janela::loop()
 
     // OBSTACULOS
     grid->inserir(new Objeto(100, 100, 200, 300));
-    grid->inserir(new Objeto(400, 300, 300, 300));
+    grid->inserir(new Objeto(400, 150, 300, 300));
     grid->inserir(new Objeto(400, 0, 150, 150));
 
     // FORMIGUEIRO / COMIDA / FORMIGA
     grid->inserir(new Formigueiro(50, 50, 30, 30));
-    grid->inserirCom(new Objeto(740, 540, 30, 30));
+    grid->inserirCom(new Objeto(600, 60, 30, 30));
     grid->inserirFormigas(QTD_FORMIGAS);
 
     
@@ -82,7 +85,11 @@ void Janela::loop()
         case 0:
             running = 0;
             break;
-        }
+        case 2:
+
+            SDL_GetMouseState(&mouseX, &mouseY);
+            grid->inserir(new Objeto(mouseX - 20, mouseY - 20, 40, 40));
+        } 
 
         grid->exibir(renderer);
 

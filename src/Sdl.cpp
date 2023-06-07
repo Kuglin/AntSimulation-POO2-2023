@@ -39,8 +39,11 @@ int Sdl::handleEvents()
     while( SDL_PollEvent( &eventHandler ) != 0 )
     {
         //User requests quit
-        if( eventHandler.type == SDL_QUIT )
+        if ( eventHandler.type == SDL_QUIT )
             return 0;
+
+        else if ( eventHandler.type == SDL_MOUSEBUTTONDOWN)
+            return 2;
     }
     return 1;
 }

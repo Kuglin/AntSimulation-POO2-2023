@@ -27,10 +27,10 @@ Formiga::Formiga(int x, int y, int w, int h, float vel, int angulo_inicial) : Ob
 
 void Formiga::girar_vetor(int angulo) {
 
-    if (angulo > 20)
-        angulo = 20;
-    else if (angulo < -20)
-        angulo = -20;
+    if (angulo > 30)
+        angulo = 30;
+    else if (angulo < -30)
+        angulo = -30;
 
     this->angulo = int(this->angulo + angulo) % 360;
 
@@ -51,8 +51,7 @@ void Formiga::girar_aleatorio() {
 void Formiga::colide(int posEsqType, int posDirType) {
 
     if (posDirType == posEsqType) {
-            angulo *= -1;
-            
+            angulo *= -1;   
         }
             
     else {
@@ -60,7 +59,7 @@ void Formiga::colide(int posEsqType, int posDirType) {
         if (dir_x < 0) {
 
             if (dir_y < 0) angulo += 90;
-            else angulo = 90;
+            else angulo -= 90;
         }
 
         else {
@@ -112,6 +111,11 @@ void Formiga::mover_dir(Grid* grid) {
 
     move_x(dir_x);
     move_y(dir_y);
+
+    // SE ENTRAR NA PAREDE TELEPORTA PRA LONGE
+    if (grid->get_GridPosType(pos_x + width/2, pos_y + height/2) == 1) {
+        respawn(grid->formigueiro);
+    }
 
 }
 
@@ -200,8 +204,8 @@ void Formiga::visao(Grid* grid, Renderer *r) {
                 qtdFer += 1000;
 
             // SE ENXERGA OBSTACULO
-            // else if (pos_type == 1 || pos_type == -1)
-            //     qtdFer -= 100000;
+            else if (pos_type == 1 || pos_type == -1)
+                qtdFer -= 100000;
         }
 
         if (qtdFer > qtdMaxFer) {
@@ -219,4 +223,15 @@ void Formiga::visao(Grid* grid, Renderer *r) {
     }
 
     girar_vetor((angMax + angVisao/6));
+}
+
+void Formiga::respawn(Formigueiro *formigueiro) {
+
+    angulo = gerar_random(0, 360);
+    pos_x = formigueiro->get_pos_x() + formigueiro->get_width()/2 + formigueiro->get_width() * cos(conv_radianos(angulo));
+    pos_xR = pos_x;
+
+    pos_y = formigueiro->get_pos_y() + formigueiro->get_height()/2 + formigueiro->get_height() * sin(conv_radianos(angulo));
+    pos_yR = pos_y;
+    
 }

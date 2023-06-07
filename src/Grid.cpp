@@ -110,9 +110,19 @@ void Grid::inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r) {
 
 void Grid::inserirFormigas(int qtd) {
 
+    int angulo, pos_x, pos_y;
+
     //Gera a quantidade de formigas especificada, com uma direção aleatória
-    for (int i = 0; i < qtd; i++)
-        formigas.push_back(new Formiga(formigueiro->get_pos_x()+20, formigueiro->get_pos_y()+0, 10, 10, 1, gerar_random(0,360)));
+    for (int i = 0; i < qtd; i++) {
+
+        angulo = gerar_random(0, 360);
+        pos_x = formigueiro->get_pos_x() + formigueiro->get_width()/2 + formigueiro->get_width() * cos(conv_radianos(angulo));
+
+        pos_y = formigueiro->get_pos_y() + formigueiro->get_height()/2 + formigueiro->get_height() * sin(conv_radianos(angulo));
+
+        formigas.push_back(new Formiga(pos_x, pos_y, 10, 10, 1, angulo));
+
+    }
 
 }
 
@@ -151,11 +161,11 @@ void Grid::exibir(Renderer *r) {
     feromonios.remove_if(feromonioRemove);
 
     // Exibir Formigueiro
+    r->changeColor(255, 255, 0, 255);
     r->drawRect(formigueiro->get_rect());
 
     // Exibir Comida
     r->changeColor(100, 255, 100, 255);
-
     for (int i=0; i < comidas.size(); i++)
         r->drawRect(comidas[i]->get_rect());
 

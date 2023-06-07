@@ -3,6 +3,7 @@
 
 #include "Objeto.h"
 #include "Renderer.h"
+#include "Formigueiro.h"
 
 class Grid;
 
@@ -33,8 +34,6 @@ class Formiga : public Objeto {
 
         // Intervalo entre soltar feromonio
         int tempoFer = 10;
-
-        int angAlgo = 0;
 
     public:
 
@@ -69,6 +68,8 @@ class Formiga : public Objeto {
         bool hasFood = 0;
 
         void colide(int posEsqType, int posDirType);
+
+        void respawn(Formigueiro *formigueiro);
         
 };
 
