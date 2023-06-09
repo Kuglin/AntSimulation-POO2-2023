@@ -1,9 +1,1 @@
-Felipe;20
-João;18
-Guilherme;70
-Júlia;15
-Marco;70
-Lucas;7
-Henrique;45
-Paulo;84
-Jorge;36
+
