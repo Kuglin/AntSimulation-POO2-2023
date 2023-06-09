@@ -1,0 +1,162 @@
+@startuml
+
+skin rose
+
+title Classes - Class Diagram
+
+class Feromonio{
+  -qtdFerCom:int
+  -qtdFerCas:int
+  -durFerCom:int
+  -durFerCas:int
+  -r:Renderer
+  +Feromonio(x:int, y:int, comida:bool, r:Renderer, grid:Grid)
+  +update():bool
+  +achouComida:bool
+  +getQtdFer(achouComida:bool):int
+  +inserirFer(achouComida:bool):void
+  +grid:Grid
+}
+
+class Formiga{
+  -dir_x:float
+  -dir_y:float
+  -pos_xR:float
+  -pos_yR:float
+  -distVisao:int
+  -angVisao:int
+  -velocidade:float
+  -angulo:int
+  -aceleracao_angular:int
+  -tempoFer:int
+  +Formiga(x:int, y:int, w:int, h:int, vel:float, angulo_inicial:int)
+  +girar_vetor(ang:int):void
+  +girar_aleatorio():void
+  +mover_dir(grid:Grid):void
+  +move_x(v:float):void
+  +move_y(v:float):void
+  +visao(grid:Grid, r:Renderer):void
+  +draw(r:Renderer):void
+  +update():void
+  +soltarFeromonio():bool
+  +hasFood:bool
+  +colide(posEsqType:int, posDirType:int):void
+}
+
+class Formigueiro{
+  +Formigueiro(x:int, y:int, w:int, h:int)
+  +qtd_comida:int
+}
+
+class Grid{
+  -objetos:vector<Objeto>
+  -feromonios:forward_list<Feromonio>
+  -formigas:vector<Formiga>
+  -comidas:vector<Objeto>
+  -linhas:int
+  -colunas:int
+  +grid:Ponto
+  +Grid(linhas:int, colunas:int)
+  +inserir(obj:Objeto):void
+  +inserir(feromonio:Feromonio):void
+  +inserir(formigueiro:Formigueiro):void
+  +inserirCom(obj:Objeto):void
+  +inserirFer(pos_x:int, pos_y:int, achouComida:bool, r:Renderer):void
+  +inserirFormigas(qtd:int):void
+  +exibir(r:Renderer):void
+  +get_GridPosType(pos_x:int, pos_y:int):int
+  +formigueiro:Formigueiro
+  +getQtdFer(pos_x:int, pos_y:int, achouComida:bool):int
+  +existPos(pos_x:int, pos_y:int):bool
+}
+
+class Janela{
+  -sdlWindow:SDL_Window
+  -width:int
+  -heigth:int
+  -title:char
+  -sdl:Sdl
+  -renderer:Renderer
+  +Janela(title:char, w:int, h:int)
+  +\~Janela()
+  +get_sdlWindow():SDL_Window
+  +get_width():int
+  +get_heigth():int
+  +loop():void
+}
+
+class Objeto{
+  #width:int
+  #heigth:int
+  #rect:SDL_Rect
+  +Objeto(x:int, y:int, w:int, h:int)
+  +draw(r:Renderer):void
+  +get_rect():SDL_Rect
+  +verf_colisao(obj:Objeto):bool
+  +get_width():int
+  +get_heigth():int
+}
+
+class Ponto{
+  #pos_x:int
+  #pos_y:int
+  #grid:Grid
+  #renderer:Renderera
+  +Ponto(x:int, y:int)
+  +\~Ponto()
+  +type:Type
+  +get_pos_x():int
+  +get_pos_y():int
+}
+
+class Renderer{
+  -sdlRenderer:SDL_Renderer
+  -r:int
+  -g:int
+  -b:int
+  -a:int
+  +Renderer(sdlwindow:SDL_Window)
+  +get_sdlRenderer():SDL_Renderer
+  +drawPoint(x:int, y:int):void
+  +drawLine(x1:int, y1:int, x2:int, y2:int)void
+  +drawRect(rect:SDL_Rect):void
+  +changeColor(r:int, g:int, b:int, a:int)
+  +update():void
+  +clear():void
+}
+
+class Sdl{
+  -Sdl()
+  -sdl:Sdl
+  -eventHandler:SDL_Event
+  +\~Sdl()
+  +currentKeyStates:Uint8
+  +criar():Sdl
+  +handleEvents():int
+}
+
+Feromonio *-- Objeto
+Feromonio *-- Renderer
+Feromonio o-- Ponto
+
+Formiga o-- Objeto
+Formiga *-- Renderer
+
+Formigueiro o-- Objeto
+
+Grid *-- Objeto
+Grid *-- Feromonio
+Grid *-- Renderer
+Grid *-- Formiga
+Grid *-- Formigueiro
+
+Janela *-- Sdl
+Janela *-- Renderer
+
+Objeto *-- Renderer
+Objeto o-- Ponto
+
+Ponto *-- Renderer
+
+
+@enduml
