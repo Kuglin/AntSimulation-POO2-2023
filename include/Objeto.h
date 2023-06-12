@@ -22,7 +22,7 @@ class Objeto : public Ponto {
         // Construtor
         Objeto(int x, int y, int w, int h);
 
-        ~Objeto();
+        //~Objeto();
         
         // Desenha o Objeto na Tela
         void draw(Renderer *r);

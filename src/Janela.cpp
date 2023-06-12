@@ -3,6 +3,7 @@
 #include "Formiga.h"
 #include "Feromonio.h"
 #include "Grid.h"
+#include "Persistencia.h"
 
 #include <SDL2/SDL.h>
 
@@ -62,11 +63,20 @@ void Janela::loop()
     grid->inserir(new Objeto(0, 0, 1, height));
     grid->inserir(new Objeto(width-1, 0, 1, height));
     grid->inserir(new Objeto(0, height-1, width, 1));
+    cout<<"o";
 
-    // OBSTACULOS
-    // grid->inserir(new Objeto(100, 100, 200, 300));
-    // grid->inserir(new Objeto(400, 150, 300, 300));
-    // grid->inserir(new Objeto(400, 0, 150, 150));
+    // OBSTACULOS armazenados usando persistencia
+    int cont=qtdObj();
+    int aux=0;
+    int* dados = lerDados();
+    while (aux<cont)
+    {
+        cout<<"oi";
+        grid->inserir(new Objeto(dados[aux], dados[aux+1], 40, 40));
+        aux+=2;
+    }
+    
+
 
     // FORMIGUEIRO / COMIDA / FORMIGA
     grid->inserir(new Formigueiro(50, 50, 30, 30));
