@@ -10,12 +10,16 @@ using namespace std;
 #include "Renderer.h"
 #include "Formiga.h"
 #include "Formigueiro.h"
+#include "Persistencia.h"
 
 class Grid {
     private:
 
         //Listas dos itens do Grid
+        
         vector<Objeto*> objetos;
+
+        vector<Objeto*> paredes;
 
         forward_list<Feromonio*> feromonios;
 
@@ -25,6 +29,8 @@ class Grid {
 
         int linhas;
         int colunas;
+
+        void criarParede(Objeto* obj);
 
     public:
         
@@ -47,7 +53,7 @@ class Grid {
         void inserirFormigas(int qtd);
 
         // Funcao Principal e auxiliar para inserir Feromonio
-        void inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r);
+        void inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r, int qtd);
         void inserir(Feromonio* feromonio);
 
         // Exibe todos os elementos do Grid
@@ -63,6 +69,8 @@ class Grid {
         int getQtdFer(int pos_x, int pos_, bool achouComida);
 
         void removeObjeto(int pos_x, int pos_y);
+
+        void salvarDados();
 
 };
 

@@ -16,26 +16,45 @@ int* lerDados() {
     if (arquivo.is_open()) {
         cont = qtdObj();
         cout<<cont<<endl;
-        vector <int>dados = new int[cont];
+        int *dados = new int[cont];
         
         while (getline(arquivo, linha)) {
             stringstream ss(linha);
             while (getline(ss, str, ';')) {
                 dados[num] = stoi(str);
                 num++;
-            }for (size_t i = 0; i < cont; i++)
-            {
-                cout<<"dado:"<<dados[i]<<endl;
-            }
-            
+            }  
         }
         
         arquivo.close();
         return dados;
     }
+
+    arquivo.close();
+    return nullptr; // Retorna um ponteiro nulo em caso de erro na leitura do arquivo
+}
+
+void escreverDados(int *dados, int qtd) {
+
+    fstream arquivo;
+    string linha, str;
+    arquivo.open("./Dados.txt", ios::out | ios::trunc);
+
+    int i = 0;
+
+    while (i < qtd) {
+
+        arquivo << dados[i];
+        arquivo << ";";
+        i += 1;
+        arquivo << dados[i];
+        arquivo << "\n";
+        i += 1; 
+
+    }
     
     arquivo.close();
-    return dados; // Retorna um ponteiro nulo em caso de erro na leitura do arquivo
+
 }
 
 int qtdObj() {

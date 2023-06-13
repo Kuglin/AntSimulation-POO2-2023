@@ -8,6 +8,8 @@
 #include <iostream>
 using namespace std;
 
+#define INTENDISADE_FER 1000
+
 Formiga::Formiga(int x, int y, int w, int h, float vel, int angulo_inicial) : Objeto(x, y, w, h){
 
     this->velocidade = vel;
@@ -22,6 +24,8 @@ Formiga::Formiga(int x, int y, int w, int h, float vel, int angulo_inicial) : Ob
     this->aceleracao_angular = (gerar_random(-1, 1));
 
     this->type = Type::formiga;
+
+    this->intensidadeFer = INTENDISADE_FER;
 
 }
 
@@ -91,6 +95,7 @@ void Formiga::mover_dir(Grid* grid) {
             angulo += 180;
             girar_vetor(0);
             hasFood = 1;
+            intensidadeFer = INTENDISADE_FER;
         }
         
         // SE VAI COLIDIR COM FORMIGUEIRO
@@ -103,6 +108,7 @@ void Formiga::mover_dir(Grid* grid) {
                 grid->formigueiro->qtd_comida += 1;
 
             hasFood = 0;
+            intensidadeFer = INTENDISADE_FER;
         }
             
     }
@@ -161,6 +167,9 @@ bool Formiga::soltarFeromonio() {
 
     tempoFer -= 1;
 
+    if (intensidadeFer > 1)
+        intensidadeFer -= 1;
+
     if (tempoFer == 0) {
         
         tempoFer = 10;
@@ -197,11 +206,11 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             
             // SE ENXERGA COMIDA
             if (pos_type == Type::comida && !hasFood)
-                qtdFer += 1000;
+                qtdFer += 1000000;
 
             // SE ENXERGA FORMIGUEIRO
             else if (pos_type == Type::formigueiro && hasFood)
-                qtdFer += 1000;
+                qtdFer += 1000000;
 
             // SE ENXERGA OBSTACULO
             else if (pos_type == 1 || pos_type == -1)

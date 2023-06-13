@@ -3,5 +3,6 @@
 
 int* lerDados();
 int qtdObj();
+void escreverDados(int *dados, int qtd);
 
 #endif

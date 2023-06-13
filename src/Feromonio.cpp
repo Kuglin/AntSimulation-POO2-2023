@@ -2,15 +2,15 @@
 #include <iostream>
 #include "Grid.h"
 
-#define DURACAO_FEROMONIO 1000
+#define DURACAO_FEROMONIO 500
 
-Feromonio::Feromonio(int x, int y, bool achouComida, Renderer* r, Grid* grid) : Ponto(x, y){
+Feromonio::Feromonio(int x, int y, bool achouComida, Renderer* r, Grid* grid, int qtd) : Ponto(x, y){
 
     if (achouComida) {
         this->type = Type::feromonioComida;
         
-        durFerCom = DURACAO_FEROMONIO;
-        qtdFerCom = 1;
+        durFerCom = DURACAO_FEROMONIO*qtd;
+        qtdFerCom = qtd;
 
         durFerCas = 0;
         qtdFerCas = 0;
@@ -22,8 +22,8 @@ Feromonio::Feromonio(int x, int y, bool achouComida, Renderer* r, Grid* grid) : 
         durFerCom = 0;
         qtdFerCom = 0;
 
-        durFerCas = DURACAO_FEROMONIO;
-        qtdFerCas = 1;
+        durFerCas = DURACAO_FEROMONIO*qtd;
+        qtdFerCas = qtd;
 
     }
         
@@ -78,16 +78,16 @@ int Feromonio::getQtdFer(bool achouComida) {
     return durFerCom;
 }
 
-void Feromonio::inserirFer(bool achouComida) {
+void Feromonio::inserirFer(bool achouComida, int qtd) {
 
     if (achouComida) {
-        qtdFerCom += 1;
-        durFerCom += DURACAO_FEROMONIO;
+        qtdFerCom += qtd;
+        durFerCom += DURACAO_FEROMONIO*qtd;
     }
 
     else {
-        qtdFerCas += 1;
-        durFerCas += DURACAO_FEROMONIO;
+        qtdFerCas += qtd;
+        durFerCas += DURACAO_FEROMONIO*qtd;
     }
 
     if (qtdFerCom > qtdFerCas)

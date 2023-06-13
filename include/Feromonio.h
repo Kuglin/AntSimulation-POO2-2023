@@ -21,7 +21,7 @@ class Feromonio : public Ponto {
     public:
 
         // Construtor
-        Feromonio(int x, int y, bool comida, Renderer* r, Grid* grid); 
+        Feromonio(int x, int y, bool comida, Renderer* r, Grid* grid, int qtd); 
         
         // Retorna 1 se acabou sua duração
         bool update();
@@ -30,7 +30,7 @@ class Feromonio : public Ponto {
 
         int getQtdFer(bool achouComida);
 
-        void inserirFer(bool achouComida);
+        void inserirFer(bool achouComida, int qtd);
 
         Grid* grid;
 

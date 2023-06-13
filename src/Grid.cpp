@@ -29,6 +29,31 @@ Grid::Grid(int linhas, int colunas) {
         for (int j = 0; j < (colunas); j++)
             grid[i][j] = nullptr;
     }
+
+    // PAREDES
+    criarParede(new Objeto(0, 0, linhas, 1));
+    criarParede(new Objeto(0, 0, 1, colunas));
+    criarParede(new Objeto(linhas-1, 0, 1, colunas));
+    criarParede(new Objeto(0, colunas-1, linhas, 1));
+    
+}
+
+void Grid::criarParede(Objeto* obj) {
+
+    paredes.push_back(obj);
+
+    //Pega a posição do objeto
+    int pos_x = obj->get_pos_x();
+    int pos_y = obj->get_pos_y();
+
+    int pos_x2 = pos_x + obj->get_width();
+    int pos_y2 = pos_y + obj->get_height();
+
+    //Insere na matriz "grid" um Objeto (que herda Ponto), para sinalizar todas as posições que ele ocupa
+    for (int i = pos_x; i < pos_x2; i++)
+        for (int j = pos_y; j < pos_y2; j++)  
+            if (i < linhas && i >= 0 && j < colunas && j >= 0)
+                grid[i][j] = obj;
     
 }
 
@@ -101,13 +126,13 @@ void Grid::inserirCom(Objeto* obj) {
 
 }
 
-void Grid::inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r) {
+void Grid::inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r, int qtd) {
 
     if (grid[pos_x][pos_y] == nullptr)
-        inserir(new Feromonio(pos_x, pos_y, achouComida, r, this));
+        inserir(new Feromonio(pos_x, pos_y, achouComida, r, this, qtd));
 
     else if (grid[pos_x][pos_y]->type == Type::feromonioComida || grid[pos_x][pos_y]->type == Type::feromonioCasa)
-        static_cast<Feromonio*>(grid[pos_x][pos_y])->inserirFer(achouComida);
+        static_cast<Feromonio*>(grid[pos_x][pos_y])->inserirFer(achouComida, qtd);
 
 }
 
@@ -139,6 +164,10 @@ void Grid::exibir(Renderer *r) {
     for (int i = 0; i < objetos.size(); i++)
         objetos[i]->draw(r);
 
+    // Exibir Paredes
+    for (int i = 0; i < paredes.size(); i++)
+        paredes[i]->draw(r);
+
     // Exibir Formigas
 
     for (int i = 0; i < formigas.size(); i++) {
@@ -147,8 +176,8 @@ void Grid::exibir(Renderer *r) {
 
             int pos_x = formigas[i]->get_pos_x() + formigas[i]->get_width()/2;
             int pos_y = formigas[i]->get_pos_y() + formigas[i]->get_height()/2;
-        
-            inserirFer(pos_x, pos_y, formigas[i]->hasFood, r);
+
+            inserirFer(pos_x, pos_y, formigas[i]->hasFood, r, formigas[i]->intensidadeFer);
 
         }
         
@@ -225,4 +254,23 @@ void Grid::removeObjeto(int pos_x, int pos_y) {
             cout << o_pos_x2 << "\n";
 
         }
+}
+
+void Grid::salvarDados() {
+
+    int* dados = new int[objetos.size()];
+
+    int j = 0;
+    for (int i = 0; i < objetos.size(); i++){
+
+        dados[j] = objetos[i]->get_pos_x();
+        j++;
+        dados[j] = objetos[i]->get_pos_y();
+        j++;
+        cout << objetos[i]->get_pos_x() << "a\n";
+
+    }
+
+    escreverDados(dados, objetos.size()*2);
+
 }

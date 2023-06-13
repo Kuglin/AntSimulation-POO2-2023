@@ -30,5 +30,5 @@ void eliminarValor(std::vector<int>& vetor, int tam, int valor){
             j++;
         }
     }
-    vetor=vetorAux;
+    // vetor=vetorAux;
 }

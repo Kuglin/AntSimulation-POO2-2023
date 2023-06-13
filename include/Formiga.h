@@ -35,6 +35,8 @@ class Formiga : public Objeto {
         // Intervalo entre soltar feromonio
         int tempoFer = 10;
 
+        
+
     public:
 
         // Construtor
@@ -67,9 +69,14 @@ class Formiga : public Objeto {
         // 0 se está carregando comida ou 1 se está com comida
         bool hasFood = 0;
 
+        // Intensidade do feromonio solto, varia conforme distancia da casa ou comida
+        int intensidadeFer;
+
         void colide(int posEsqType, int posDirType);
 
         void respawn(Formigueiro *formigueiro);
+
+        
         
 };
 

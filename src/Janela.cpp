@@ -59,36 +59,22 @@ void Janela::loop()
 
     Grid *grid = new Grid(800, 600);
 
-    // PAREDES
-    grid->inserir(new Objeto(0, 0, width, 1));
-    grid->inserir(new Objeto(0, 0, 1, height));
-    grid->inserir(new Objeto(width-1, 0, 1, height));
-    grid->inserir(new Objeto(0, height-1, width, 1));
-    cout<<"o";
-
     // OBSTACULOS armazenados usando persistencia
     int cont=qtdObj();
     int aux=0, aux2;
-    vector <int>dados = lerDados();
-    vector <int>dadosX;
-    vector <int>dadosY;
+    int *dados = lerDados();
+
     while (aux<cont)
     {   
-        dadosX[aux2]=dados[aux];
-        dadosY[aux2]=dados[aux+1];
         grid->inserir(new Objeto(dados[aux], dados[aux+1], 40, 40));
         aux+=2;
         aux2++;
     }
     
-
-
     // FORMIGUEIRO / COMIDA / FORMIGA
     grid->inserir(new Formigueiro(50, 50, 30, 30));
     grid->inserirCom(new Objeto(600, 60, 30, 30));
     grid->inserirFormigas(QTD_FORMIGAS);
-
-    
 
     while (running)
     {   
@@ -107,24 +93,13 @@ void Janela::loop()
 
             SDL_GetMouseState(&mouseX, &mouseY);
             grid->inserir(new Objeto(mouseX - 20, mouseY - 20, 40, 40));
-            
-            dadosX[aux2]=mouseX;
-            dadosY[aux2]=mouseY;
-            aux2++;
 
-            cout << "btn dir \n";
             break;
         
         case 3:
 
-            cout << "btn esq \n";
             SDL_GetMouseState(&mouseX, &mouseY);
             grid->removeObjeto(mouseX, mouseY);
-
-            eliminarValor(dadosX, aux2, mouseX);
-            
-            
-
             break;
         
         }
@@ -136,4 +111,5 @@ void Janela::loop()
         SDL_Delay(0);
     }
 
+    grid->salvarDados();
 }
