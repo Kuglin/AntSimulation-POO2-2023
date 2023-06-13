@@ -26,8 +26,6 @@ class Feromonio : public Ponto {
         // Retorna 1 se acabou sua duração
         bool update();
 
-        bool achouComida;
-
         int getQtdFer(bool achouComida);
 
         void inserirFer(bool achouComida, int qtd);

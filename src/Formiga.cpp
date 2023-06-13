@@ -194,10 +194,6 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             vis_x = (distVisao * cos(conv_radianos(ang + this->angulo))) + pos_x + width/2;
             vis_y = (distVisao * sin(conv_radianos(ang + this->angulo))) + pos_y + height/2;
 
-            // if (ini == -angVisao/2 + angVisao/3) r->changeColor(255 ,0 ,255, 255);
-            // else r->changeColor(255 ,255 ,0, 255);
-            // r->drawPoint(vis_x, vis_y);
-
             int pos_type = grid->get_GridPosType(vis_x, vis_y);
 
             // SE ENXERGA FEROMONIO

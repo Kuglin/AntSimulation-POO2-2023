@@ -250,8 +250,6 @@ void Grid::removeObjeto(int pos_x, int pos_y) {
                 for (int j = o_pos_y1; j < o_pos_y2; j++)
                     if (existPos(i, j)) 
                         grid[i][j] = nullptr;
-            
-            cout << o_pos_x2 << "\n";
 
         }
 }
@@ -267,7 +265,6 @@ void Grid::salvarDados() {
         j++;
         dados[j] = objetos[i]->get_pos_y();
         j++;
-        cout << objetos[i]->get_pos_x() << "a\n";
 
     }
 

@@ -15,7 +15,6 @@ int* lerDados() {
     
     if (arquivo.is_open()) {
         cont = qtdObj();
-        cout<<cont<<endl;
         int *dados = new int[cont];
         
         while (getline(arquivo, linha)) {
@@ -44,7 +43,7 @@ void escreverDados(int *dados, int qtd) {
 
     while (i < qtd) {
 
-        arquivo << dados[i];
+        arquivo << dados[i]; 
         arquivo << ";";
         i += 1;
         arquivo << dados[i];

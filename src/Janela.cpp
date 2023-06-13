@@ -73,7 +73,7 @@ void Janela::loop()
     
     // FORMIGUEIRO / COMIDA / FORMIGA
     grid->inserir(new Formigueiro(50, 50, 30, 30));
-    grid->inserirCom(new Objeto(600, 60, 30, 30));
+    grid->inserirCom(new Objeto(700, 500, 30, 30));
     grid->inserirFormigas(QTD_FORMIGAS);
 
     while (running)

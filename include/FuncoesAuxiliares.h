@@ -9,6 +9,4 @@ int gerar_random(int ini, int fim);
 
 float conv_radianos(int angulo);
 
-void eliminarValor(int*& vetor, int tam, int valor);
-
 #endif

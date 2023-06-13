@@ -6,6 +6,7 @@
 
 Feromonio::Feromonio(int x, int y, bool achouComida, Renderer* r, Grid* grid, int qtd) : Ponto(x, y){
 
+    //Estabelecer se o feromônio de casa ou de comida
     if (achouComida) {
         this->type = Type::feromonioComida;
         
@@ -26,8 +27,6 @@ Feromonio::Feromonio(int x, int y, bool achouComida, Renderer* r, Grid* grid, in
         qtdFerCas = qtd;
 
     }
-        
-    this->achouComida = achouComida;
 
     this->r = r;
 
@@ -38,7 +37,7 @@ bool Feromonio::update() {
 
     // DRAW
 
-    if (achouComida)
+    if (this->type == Type::feromonioComida)
         r->changeColor(255, 100, 100, 255);
 
     else
