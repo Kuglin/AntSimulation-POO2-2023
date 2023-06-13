@@ -4,6 +4,7 @@
 using namespace std;
 
 int main(int argc, char const *argv[]){
+    /*
     fstream arquivo;
     arquivo.open("./felipe.txt", ios::out | ios::app);
     string linha, str;
@@ -32,10 +33,12 @@ int main(int argc, char const *argv[]){
         {
             stringstream ss(linha);
             while (getline(ss, str, ';')){
-                cout<<str<<endl;
+                cout<<str<<endl;*
             }
 
         }
     }
-    arquivo.close();
+    arquivo.close();*/
+
+    
 }

@@ -6,6 +6,7 @@
 #include "Persistencia.h"
 
 #include <SDL2/SDL.h>
+#include <vector>
 
 #include <iostream>
 using namespace std;
@@ -67,13 +68,17 @@ void Janela::loop()
 
     // OBSTACULOS armazenados usando persistencia
     int cont=qtdObj();
-    int aux=0;
-    int* dados = lerDados();
+    int aux=0, aux2;
+    vector <int>dados = lerDados();
+    vector <int>dadosX;
+    vector <int>dadosY;
     while (aux<cont)
-    {
-        cout<<"oi";
+    {   
+        dadosX[aux2]=dados[aux];
+        dadosY[aux2]=dados[aux+1];
         grid->inserir(new Objeto(dados[aux], dados[aux+1], 40, 40));
         aux+=2;
+        aux2++;
     }
     
 
@@ -102,6 +107,11 @@ void Janela::loop()
 
             SDL_GetMouseState(&mouseX, &mouseY);
             grid->inserir(new Objeto(mouseX - 20, mouseY - 20, 40, 40));
+            
+            dadosX[aux2]=mouseX;
+            dadosY[aux2]=mouseY;
+            aux2++;
+
             cout << "btn dir \n";
             break;
         
@@ -110,6 +120,11 @@ void Janela::loop()
             cout << "btn esq \n";
             SDL_GetMouseState(&mouseX, &mouseY);
             grid->removeObjeto(mouseX, mouseY);
+
+            eliminarValor(dadosX, aux2, mouseX);
+            
+            
+
             break;
         
         }

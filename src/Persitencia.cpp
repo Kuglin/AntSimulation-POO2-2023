@@ -16,7 +16,7 @@ int* lerDados() {
     if (arquivo.is_open()) {
         cont = qtdObj();
         cout<<cont<<endl;
-        int* dados = new int[cont];
+        vector <int>dados = new int[cont];
         
         while (getline(arquivo, linha)) {
             stringstream ss(linha);
@@ -35,7 +35,7 @@ int* lerDados() {
     }
     
     arquivo.close();
-    return nullptr; // Retorna um ponteiro nulo em caso de erro na leitura do arquivo
+    return dados; // Retorna um ponteiro nulo em caso de erro na leitura do arquivo
 }
 
 int qtdObj() {
