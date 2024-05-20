@@ -6,12 +6,13 @@
 #include "Persistencia.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <vector>
 
 #include <iostream>
 using namespace std;
 #define PI 3.14159265
-#define QTD_FORMIGAS 100
+#define QTD_FORMIGAS 1000
 
 // Construtor
 Janela::Janela(const char *titulo, int w, int h)
@@ -50,7 +51,7 @@ int Janela::get_width()
 }
 
 void Janela::loop()
-{   
+{  
 
     int mouseX = 0;
     int mouseY = 0;
@@ -74,7 +75,7 @@ void Janela::loop()
     // FORMIGUEIRO / COMIDA / FORMIGA
     grid->inserir(new Formigueiro(50, 50, 30, 30));
     grid->inserirCom(new Objeto(700, 500, 30, 30));
-    grid->inserirFormigas(QTD_FORMIGAS);
+    grid->inserirFormigas(QTD_FORMIGAS, renderer);
 
     while (running)
     {   
@@ -108,7 +109,7 @@ void Janela::loop()
 
         renderer->update();
 
-        SDL_Delay(0);
+        //SDL_Delay(0);
     }
 
     grid->salvarDados();

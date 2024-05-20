@@ -1,16 +1,18 @@
 #include "Formiga.h"
 #include "FuncoesAuxiliares.h"
+#include "FormigaFlyweight.h"
 #include "Grid.h"
 
 #include <cmath>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 #include <iostream>
 using namespace std;
 
-#define INTENDISADE_FER 1000
+#define INTENDISADE_FER 10
 
-Formiga::Formiga(int x, int y, int w, int h, float vel, int angulo_inicial) : Objeto(x, y, w, h){
+Formiga::Formiga(int x, int y, int w, int h,float vel, int angulo_inicial, FormigaFlyweight* formigaFlyweight) : Objeto(x, y, w, h){
 
     this->velocidade = vel;
 
@@ -27,6 +29,7 @@ Formiga::Formiga(int x, int y, int w, int h, float vel, int angulo_inicial) : Ob
 
     this->intensidadeFer = INTENDISADE_FER;
 
+    this->formigaFlyweight = formigaFlyweight;
 }
 
 void Formiga::girar_vetor(int angulo) {
@@ -149,14 +152,16 @@ void Formiga::move_y(float v) {
 
 void Formiga::draw(Renderer *r){
 
-    if (hasFood)
-        r->changeColor(100,255,100,255);
+    // if (hasFood)
+    //     r->changeColor(100,255,100,255);
     
-    else
-        r->changeColor(255,255,255,255);
+    // else
+    //     r->changeColor(255,255,255,255);
+
+    SDL_RenderCopy(r->get_sdlRenderer(), formigaFlyweight->getFormigaTexture(), NULL, &rect);
     
-    r->drawRect(&rect);
-    r->drawLine(pos_x + width/2, pos_y + height/2, pos_x + width/2 + dir_x * width , pos_y + height/2 + dir_y * height);
+    // r->drawRect(&rect);
+    // r->drawLine(pos_x + width/2, pos_y + height/2, pos_x + width/2 + dir_x * width , pos_y + height/2 + dir_y * height);
 
 }
 
@@ -186,13 +191,13 @@ void Formiga::visao(Grid* grid, Renderer *r) {
 
     int qtdFer = 0;
     int qtdMaxFer = 0;
-    int angMax = -angVisao/2 + angVisao/3;
+    int angMax = -formigaFlyweight->getAngVisao()/2 + formigaFlyweight->getAngVisao()/3;
 
-    for (int ini = -angVisao/2; ini < angVisao/2; ini+= angVisao/3) {
-        for (int ang = ini; ang < ini+angVisao/3; ang++) {
+    for (int ini = -formigaFlyweight->getAngVisao()/2; ini < formigaFlyweight->getAngVisao()/2; ini+= formigaFlyweight->getAngVisao()/3) {
+        for (int ang = ini; ang < ini+formigaFlyweight->getAngVisao()/3; ang++) {
             
-            vis_x = (distVisao * cos(conv_radianos(ang + this->angulo))) + pos_x + width/2;
-            vis_y = (distVisao * sin(conv_radianos(ang + this->angulo))) + pos_y + height/2;
+            vis_x = (formigaFlyweight->getDistVisao() * cos(conv_radianos(ang + this->angulo))) + pos_x + width/2;
+            vis_y = (formigaFlyweight->getDistVisao() * sin(conv_radianos(ang + this->angulo))) + pos_y + height/2;
 
             int pos_type = grid->get_GridPosType(vis_x, vis_y);
 
@@ -218,7 +223,7 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             angMax = ini;
         }
         
-        else if (qtdFer == qtdMaxFer && angMax != -angVisao/6)
+        else if (qtdFer == qtdMaxFer && angMax != -formigaFlyweight->getAngVisao()/6)
             if (gerar_random(0,1)) {
                 angMax = ini;
             } 
@@ -227,7 +232,7 @@ void Formiga::visao(Grid* grid, Renderer *r) {
             
     }
 
-    girar_vetor((angMax + angVisao/6));
+    girar_vetor((angMax + formigaFlyweight->getAngVisao()/6));
 }
 
 void Formiga::respawn(Formigueiro *formigueiro) {

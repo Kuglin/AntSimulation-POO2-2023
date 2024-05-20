@@ -136,9 +136,11 @@ void Grid::inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r, int q
 
 }
 
-void Grid::inserirFormigas(int qtd) {
+void Grid::inserirFormigas(int qtd, Renderer* r) {
 
     int angulo, pos_x, pos_y;
+
+    FormigaFlyweight* formigaPadrao = new FormigaFlyweight(30, 180, r);
 
     //Gera a quantidade de formigas especificada, com uma direção aleatória
     for (int i = 0; i < qtd; i++) {
@@ -148,7 +150,7 @@ void Grid::inserirFormigas(int qtd) {
 
         pos_y = formigueiro->get_pos_y() + formigueiro->get_height()/2 + formigueiro->get_height() * sin(conv_radianos(angulo));
 
-        formigas.push_back(new Formiga(pos_x, pos_y, 10, 10, 1, angulo));
+        formigas.push_back(new Formiga(pos_x, pos_y, 20, 20, 1, angulo, formigaPadrao));
 
     }
 

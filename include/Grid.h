@@ -50,7 +50,7 @@ class Grid {
         
         // Funcoes para inserir Comida e Formiga
         void inserirCom(Objeto* obj);
-        void inserirFormigas(int qtd);
+        void inserirFormigas(int qtd, Renderer* r);
 
         // Funcao Principal e auxiliar para inserir Feromonio
         void inserirFer(int pos_x, int pos_y, bool achouComida, Renderer *r, int qtd);

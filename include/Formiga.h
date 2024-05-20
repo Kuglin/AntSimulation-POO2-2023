@@ -4,6 +4,9 @@
 #include "Objeto.h"
 #include "Renderer.h"
 #include "Formigueiro.h"
+#include "FormigaFlyweight.h"
+
+#include <SDL2/SDL_image.h>
 
 class Grid;
 
@@ -19,10 +22,6 @@ class Formiga : public Objeto {
         float pos_xR;
         float pos_yR;
 
-        // Campo de visão
-        int distVisao = 30;
-        int angVisao = 180;
-
         // Modulo do Vetor anterior, indica quantos pixels a formiga se move
         float velocidade;
 
@@ -35,12 +34,12 @@ class Formiga : public Objeto {
         // Intervalo entre soltar feromonio
         int tempoFer = 10;
 
-        
+        FormigaFlyweight* formigaFlyweight;
 
     public:
 
         // Construtor
-        Formiga(int x, int y, int w, int h,float vel, int angulo_inicial);
+        Formiga(int x, int y, int w, int h,float vel, int angulo_inicial, FormigaFlyweight* formigaFlyweight);
 
         // Girar o vetor de direção em um angulo aleatorio
         void girar_vetor(int ang);
